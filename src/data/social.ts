@@ -1,111 +1,88 @@
 import { agent } from "@/lib/site";
+import type { PlatformName } from "@/components/SocialIcons";
 
 /**
- * Content for the social band that closes every page.
+ * Content for the social feed that closes every page. Kept in step with the
+ * other site's copy — one brand, one social presence, so the cards are the
+ * same posts on both.
  *
  * Rules this file follows, and must keep following:
- * - Nothing here asserts a follower count, a view count or a post date. Those
- *   are facts and they are not verified in this repo.
- * - Every Instagram entry is a real @westchesternyhomes reel, linked to its
- *   own permalink, with its own thumbnail.
- * - The YouTube lane is STAND-IN. There is no channel URL anywhere in this
- *   codebase, so nothing is invented: the tiles show this site's own films,
- *   titled for what they actually are, and they carry no href. Give the lane
- *   real videos and a `profile` and they become links; until then it reads as
- *   a layout, not as a claim.
+ * - No like count, comment count or post age anywhere. Those are facts about
+ *   live posts, they change hourly, and they are not in this repo. A number
+ *   typed in by hand would be wrong within the day and wrong in public. Wire
+ *   the Instagram Graph API and the cards can carry real ones.
+ * - Every card links to a real @westchesternyhomes reel and uses that reel's
+ *   own thumbnail.
+ * - The icon row lists only accounts whose URL is confirmed. site.ts marks
+ *   the Facebook and X handles as unverified since 2023; they stay out until
+ *   someone checks them, then they are a one-line addition here.
  */
 
-/** Decides a tile's shape in the rail: portrait for reels, wide for film. */
-export type LaneKey = "instagram" | "youtube";
+export interface SocialProfile {
+  label: PlatformName;
+  href: string;
+}
+
+export const socialProfiles: SocialProfile[] = [
+  { label: "Instagram", href: agent.social.instagram },
+  { label: "LinkedIn", href: agent.social.linkedin },
+];
+
+export const socialAccount = {
+  name: "The Westchester Guy",
+  handle: "@westchesternyhomes",
+};
 
 export interface SocialPost {
-  lane: LaneKey;
   poster: string;
-  /** Optional mp4 previewed on hover. */
-  clip?: string;
-  /** Omit to render an unlinked tile rather than a dead link. */
+  /** Omit to render an unlinked card rather than a dead link. */
   href?: string;
+  /** Short caption shown under the frame. Never a metric. */
   title: string;
-  meta: string;
   alt: string;
 }
 
-export const socialLanes = {
-  instagram: {
-    handle: "@westchesternyhomes",
-    profile: agent.social.instagram,
-  },
-  youtube: {
-    /**
-     * No channel is known, so there is nothing to link to. Set it and the
-     * rail gains a second follow action. Do not guess a URL.
-     */
-    profile: null as string | null,
-  },
-};
-
-/**
- * Rail order. The band is one row, so reels and films are interleaved rather
- * than grouped: four narrow tiles in a block then three wide ones reads as
- * two clumps, while alternating them gives the strip a rhythm and lets a
- * wide frame breathe between the portrait ones. Order is by eye, not by date
- * — nothing here claims to be chronological.
- */
 export const socialFeed: SocialPost[] = [
   {
-    lane: "instagram",
     poster: "/images/reels/reel-ask-michael.jpg",
     href: "https://www.instagram.com/reel/Danl7dZOqrX/",
     title: "Ask Michael",
-    meta: "#thewestchesterguy",
     alt: "Ask Michael reel: Michael Winter on a Times Square billboard",
   },
   {
-    lane: "youtube",
-    poster: "/videos/bedfordnynew-poster.jpg",
-    clip: "/videos/bedfordnynew.mp4",
-    title: "Bedford",
-    meta: "Town film",
-    alt: "Aerial footage over Bedford, New York",
-  },
-  {
-    lane: "instagram",
     poster: "/images/reels/reel-now-jbf.jpg",
     href: "https://www.instagram.com/reel/DYmzeokukNP/",
     title: "Now at Julia B. Fee Sotheby's",
-    meta: "Bedford, NY",
     alt: "Michael Winter at the Julia B. Fee Sotheby's office in Bedford",
   },
   {
-    lane: "instagram",
     poster: "/images/reels/reel-spotlight.jpg",
     href: "https://www.instagram.com/reel/DaeXRx0ML89/",
     title: "Local business spotlight",
-    meta: "Northern Westchester",
     alt: "Michael Winter spotlighting a local Northern Westchester business",
   },
   {
-    lane: "youtube",
-    poster: "/videos/katonnah-poster.jpg",
-    clip: "/videos/katonnah.mp4",
-    title: "Katonah",
-    meta: "Town film",
-    alt: "Footage of Katonah, New York",
-  },
-  {
-    lane: "instagram",
     poster: "/images/reels/reel-moving.jpg",
     href: "https://www.instagram.com/reel/DYUc9T_OdE_/",
     title: "Making the move",
-    meta: "Bedford, NY",
     alt: "Michael Winter beside a moving truck in Bedford",
   },
+
+  // Stills from this site's own town films, so the row is long enough to
+  // scroll. Unlinked: they are not posts.
   {
-    lane: "youtube",
+    poster: "/videos/bedfordnynew-poster.jpg",
+    title: "Bedford",
+    alt: "Aerial footage over Bedford, New York",
+  },
+  {
+    poster: "/videos/katonnah-poster.jpg",
+    title: "Katonah",
+    alt: "Footage of Katonah, New York",
+  },
+  {
     poster: "/videos/north-poster.jpg",
-    clip: "/videos/north.mp4",
     title: "North Salem",
-    meta: "Town film",
     alt: "Footage of North Salem, New York",
   },
 ];
