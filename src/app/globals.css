@@ -313,3 +313,15 @@ button:focus-visible {
   animation-delay: 0.4s;
   opacity: 0;
 }
+
+/* Social rail. The rail bleeds the full width of the window, but its first
+   tile has to line up with the page's text column, so the leading spacer
+   reproduces the container's own offset: max-w-6xl (72rem) plus the gutter. */
+.social-rail-lead {
+  width: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+}
+@media (min-width: 768px) {
+  .social-rail-lead {
+    width: max(2.5rem, calc((100vw - 72rem) / 2 + 2.5rem));
+  }
+}

@@ -15,6 +15,7 @@ import { agent } from "@/lib/site";
  *   a layout, not as a claim.
  */
 
+/** Decides a tile's shape in the rail: portrait for reels, wide for film. */
 export type LaneKey = "instagram" | "youtube";
 
 export interface SocialPost {
@@ -30,20 +31,26 @@ export interface SocialPost {
 }
 
 export const socialLanes = {
-  /** Lane render order, top to bottom. */
-  order: ["instagram", "youtube"] as LaneKey[],
   instagram: {
-    label: "Reels",
     handle: "@westchesternyhomes",
     profile: agent.social.instagram,
   },
   youtube: {
-    label: "Long form",
-    /** No channel is known. Set it and the lane gains a follow action. */
+    /**
+     * No channel is known, so there is nothing to link to. Set it and the
+     * rail gains a second follow action. Do not guess a URL.
+     */
     profile: null as string | null,
   },
 };
 
+/**
+ * Rail order. The band is one row, so reels and films are interleaved rather
+ * than grouped: four narrow tiles in a block then three wide ones reads as
+ * two clumps, while alternating them gives the strip a rhythm and lets a
+ * wide frame breathe between the portrait ones. Order is by eye, not by date
+ * — nothing here claims to be chronological.
+ */
 export const socialFeed: SocialPost[] = [
   {
     lane: "instagram",
@@ -52,6 +59,14 @@ export const socialFeed: SocialPost[] = [
     title: "Ask Michael",
     meta: "#thewestchesterguy",
     alt: "Ask Michael reel: Michael Winter on a Times Square billboard",
+  },
+  {
+    lane: "youtube",
+    poster: "/videos/bedfordnynew-poster.jpg",
+    clip: "/videos/bedfordnynew.mp4",
+    title: "Bedford",
+    meta: "Town film",
+    alt: "Aerial footage over Bedford, New York",
   },
   {
     lane: "instagram",
@@ -70,30 +85,20 @@ export const socialFeed: SocialPost[] = [
     alt: "Michael Winter spotlighting a local Northern Westchester business",
   },
   {
-    lane: "instagram",
-    poster: "/images/reels/reel-moving.jpg",
-    href: "https://www.instagram.com/reel/DYUc9T_OdE_/",
-    title: "Making the move",
-    meta: "Bedford, NY",
-    alt: "Michael Winter beside a moving truck in Bedford",
-  },
-
-  // Stand-in tiles. This site's own town films, not YouTube uploads.
-  {
-    lane: "youtube",
-    poster: "/videos/bedfordnynew-poster.jpg",
-    clip: "/videos/bedfordnynew.mp4",
-    title: "Bedford",
-    meta: "Town film",
-    alt: "Aerial footage over Bedford, New York",
-  },
-  {
     lane: "youtube",
     poster: "/videos/katonnah-poster.jpg",
     clip: "/videos/katonnah.mp4",
     title: "Katonah",
     meta: "Town film",
     alt: "Footage of Katonah, New York",
+  },
+  {
+    lane: "instagram",
+    poster: "/images/reels/reel-moving.jpg",
+    href: "https://www.instagram.com/reel/DYUc9T_OdE_/",
+    title: "Making the move",
+    meta: "Bedford, NY",
+    alt: "Michael Winter beside a moving truck in Bedford",
   },
   {
     lane: "youtube",
