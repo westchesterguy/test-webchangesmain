@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MarkBadge } from "./Lockup";
 import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
+import { openLiveChat } from "@/lib/liveChat";
 
 /**
  * Two-tier masthead, shared with westchesterhorseproperties.
@@ -100,9 +101,14 @@ export function Header() {
             </nav>
 
             {/* Below sm the two tabs already fill the row, so Ask Michael
-                moves to the end of tier two rather than overlapping them. */}
+                moves to the end of tier two rather than overlapping them.
+                Both copies raise the Tawk widget and fall back to their href
+                when the embed has not loaded or was blocked. */}
             <Link
               href={ASK_MICHAEL_URL}
+            onClick={(e) => {
+              if (openLiveChat()) e.preventDefault();
+            }}
               className="hidden shrink-0 border border-white px-4 py-2 text-[0.66rem] font-medium uppercase tracking-[0.1em] transition-colors hover:bg-white hover:text-masthead sm:block md:px-6 md:py-2.5 md:text-[0.72rem] md:tracking-[0.12em]"
             >
               Ask Michael
@@ -147,6 +153,9 @@ export function Header() {
 
             <Link
               href={ASK_MICHAEL_URL}
+            onClick={(e) => {
+              if (openLiveChat()) e.preventDefault();
+            }}
               className="ml-3 shrink-0 border border-white px-3 py-1 text-[0.6rem] font-medium uppercase tracking-[0.1em] transition-colors hover:bg-white hover:text-masthead-sub sm:hidden"
             >
               Ask Michael
