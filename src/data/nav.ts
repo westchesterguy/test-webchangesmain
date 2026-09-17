@@ -32,14 +32,21 @@ export const social = {
  * when a visitor crosses domains. `short` is the label used below sm, where
  * the full names do not fit beside the mark and the button.
  *
- * NEXT_PUBLIC_HORSE_URL overrides the sibling link so a preview deployment
- * can point at the other site's preview instead of production — without it
- * the switcher on a preview jumps straight out to the live site and you
- * cannot see the two halves working together. Set it per Vercel project;
- * production leaves it unset and gets the real domain.
+ * SANDBOX DEFAULT — NOT THE PRODUCTION URL. This repo is the sandbox copy of
+ * michaelwinterrealestate, so the horse site it points at is the sandbox copy
+ * of the horse site, on its branch preview. Keeping the pair pointed at each
+ * other means the switcher stays inside the sandbox instead of dropping you
+ * onto the live site mid-test. When this change is ported to the live repo,
+ * this constant goes back to "https://westchesterhorseproperties.com".
+ *
+ * NEXT_PUBLIC_HORSE_URL overrides it per Vercel project, so a deployment can
+ * be pointed somewhere else without a code change.
  */
+const SANDBOX_HORSE_URL =
+  "https://test-webchanges-git-claude-vibrant-n-0bc257-the-westchester-guy.vercel.app";
+
 export const HORSE_URL =
-  process.env.NEXT_PUBLIC_HORSE_URL ?? "https://westchesterhorseproperties.com";
+  process.env.NEXT_PUBLIC_HORSE_URL ?? SANDBOX_HORSE_URL;
 
 export interface Brand {
   label: string;
