@@ -61,13 +61,15 @@ export function Header() {
 
             <nav
               aria-label="Michael Winter sites"
-              className="flex h-full min-w-0 flex-1 items-stretch gap-4 md:gap-9"
+              className="flex h-full min-w-0 flex-1 items-stretch gap-4 md:gap-6 lg:gap-9"
             >
               {brands.map((brand) => {
                 const current = brand.label === CURRENT_BRAND;
                 const className = [
                   "relative flex h-full items-center whitespace-nowrap font-medium uppercase",
-                  "text-[0.62rem] tracking-[0.06em] sm:text-[0.7rem] sm:tracking-[0.07em] md:text-[0.9rem]",
+                  // The full domains are long. The big size waits for lg, because at md
+                // two of them plus the button overrun the row.
+                "text-[0.62rem] tracking-[0.06em] sm:text-[0.7rem] sm:tracking-[0.07em] lg:text-[0.9rem]",
                   "transition-colors",
                   current
                     ? "text-white after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-white"

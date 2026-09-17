@@ -24,13 +24,7 @@ export const social = {
 };
 
 /**
- * The masthead's site switcher.
- *
- * Both public sites share one header so the pair reads as a single property
- * rather than two brokerages. Order is fixed — hub first, horse site second —
- * and is identical on westchesterhorseproperties, so the tabs do not move
- * when a visitor crosses domains. `short` is the label used below sm, where
- * the full names do not fit beside the mark and the button.
+ * Where the switcher's other tab points.
  *
  * SANDBOX DEFAULT — NOT THE PRODUCTION URL. This repo is the sandbox copy of
  * michaelwinterrealestate, so the horse site it points at is the sandbox copy
@@ -56,27 +50,42 @@ export interface Brand {
   external: boolean;
 }
 
+/**
+ * The masthead's site switcher.
+ *
+ * Both public sites share one header so the pair reads as a single property
+ * rather than two brokerages. Order is fixed — this site first, the horse site
+ * second — and must stay identical there so the tabs do not move when a visitor
+ * crosses domains.
+ *
+ * The tabs carry the domains, not the brand names: "westchesterguy.com" next
+ * to "westchesterhorseproperties.com" tells a visitor these are two addresses
+ * under one roof, which is the whole point of the switcher. Mixing a brand
+ * name with a URL would read as a mistake, so they change together or not at
+ * all. `short` drops the suffix below sm, where two full domains do not fit
+ * beside the mark and the button.
+ */
 export const brands: Brand[] = [
   {
-    label: "The Westchester Guy",
-    short: "Westchester Guy",
+    label: "westchesterguy.com",
+    short: "westchesterguy",
     href: "/",
     external: false,
   },
   {
-    label: "Westchester Horse Properties",
-    short: "Horse Properties",
+    label: "westchesterhorseproperties.com",
+    short: "horse properties",
     href: HORSE_URL,
     external: true,
   },
 ];
 
 /** Which brand tab reads as current. This codebase is the hub. */
-export const CURRENT_BRAND = "The Westchester Guy";
+export const CURRENT_BRAND = "westchesterguy.com";
 
 /**
- * "Ask Michael" is the reel series on Instagram, not a chat route — neither
- * site has one yet. The masthead button goes to the contact page until it
- * does. Repoint it once the chat exists; do not guess a path.
+ * Fallback for the masthead's Ask Michael button. The button raises the Tawk
+ * widget; this is where it lands when the embed has not loaded or was blocked
+ * by an extension. See components/Header.tsx and lib/liveChat.ts.
  */
 export const ASK_MICHAEL_URL = "/contact";
