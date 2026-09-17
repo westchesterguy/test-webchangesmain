@@ -124,7 +124,7 @@ export default async function CommunityPage({
       <Header />
       <main id="main-content">
         {/* Hero */}
-        <Section padding="pt-32 md:pt-40 pb-16 md:pb-20" className="bg-cream">
+        <Section padding="pt-36 md:pt-40 pb-16 md:pb-20" className="bg-cream">
           <Overline className="mb-4">
             {county} &middot; {state}
           </Overline>

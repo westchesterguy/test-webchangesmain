@@ -113,7 +113,7 @@ export default function SellersPage() {
       <Header />
       <main id="main-content">
         {/* Hero */}
-        <Section padding="pt-32 md:pt-40 pb-16 md:pb-20" className="bg-cream">
+        <Section padding="pt-36 md:pt-40 pb-16 md:pb-20" className="bg-cream">
           <Overline className="mb-4">For Sellers</Overline>
           <h1 className="font-display text-display text-charcoal max-w-3xl">
             Sell for what your home is truly worth

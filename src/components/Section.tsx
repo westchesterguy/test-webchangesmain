@@ -1,6 +1,6 @@
 /** Shared section rhythm — one place to tune vertical spacing + container width.
    `padding` overrides the home-page rhythm (standalone pages use py-20 md:py-28,
-   page heros pt-32 md:pt-40 pb-16 md:pb-20). `background` renders decorative
+   page heros pt-36 md:pt-40 pb-16 md:pb-20). `background` renders decorative
    layers between the section and the container — pair it with
    className="relative overflow-hidden" and containerClassName="relative". */
 export function Section({

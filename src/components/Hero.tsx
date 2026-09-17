@@ -10,7 +10,7 @@ import { agent } from "@/lib/site";
  */
 export function Hero() {
   return (
-    <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-navy">
+    <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-navy">
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <video
           autoPlay
@@ -32,7 +32,13 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30" />
       </div>
 
-      <div className="relative z-10 w-full px-6 pb-10 md:px-10 md:pb-12">
+      {/* Pushed down with mt-auto, not justify-end on the section. They look
+          the same while the content fits, but justify-end overflows out of
+          the *top* of the flex container, so on a short viewport the lockup
+          slid up under the fixed header and the dog disappeared. With
+          mt-auto the section grows instead, and the pt keeps the mark
+          clear of the header at every height. */}
+      <div className="relative z-10 mt-auto w-full px-6 pb-10 pt-36 md:px-10 md:pb-12 md:pt-40">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/mw-dog-light.png"

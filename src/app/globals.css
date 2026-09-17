@@ -22,6 +22,14 @@
   --color-accent-dark: #111111;
   --color-navy: #17181A;
   --color-navy-light: #26272A;
+
+  /* Masthead. Both sites share one header, so its two bands are pinned here
+     rather than read from --color-navy — this site's navy is a near-black
+     and westchesterhorseproperties' is Sotheby's blue. The bands have to
+     match across domains or the site switcher stops reading as one site.
+     Sotheby's blue, never black. */
+  --color-masthead: #002349;
+  --color-masthead-sub: #111111;
   --color-border: #E6E5DF;
   --color-border-light: #F0EFE9;
 

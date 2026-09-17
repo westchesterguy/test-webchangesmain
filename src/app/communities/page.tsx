@@ -55,7 +55,7 @@ export default function CommunitiesPage() {
       <Header />
       <main id="main-content">
         {/* Hero */}
-        <Section padding="pt-32 md:pt-40 pb-16 md:pb-20" className="bg-cream">
+        <Section padding="pt-36 md:pt-40 pb-16 md:pb-20" className="bg-cream">
           <Overline className="mb-4">Communities</Overline>
           <h1 className="font-display text-display text-charcoal mb-8">
             Communities

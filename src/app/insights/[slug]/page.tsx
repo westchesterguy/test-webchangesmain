@@ -131,7 +131,7 @@ export default async function InsightPostPage({
       <Header />
       <main id="main-content">
         {/* Hero */}
-        <Section padding="pt-32 md:pt-40 pb-16 md:pb-20" className="bg-cream">
+        <Section padding="pt-36 md:pt-40 pb-16 md:pb-20" className="bg-cream">
             <div className="max-w-3xl">
               <div className="flex items-center gap-3 mb-6">
                 <Overline>{post.topic}</Overline>
