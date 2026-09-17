@@ -100,6 +100,6 @@ export const officeList: Office[] = [
  * login is the thing that must stay private.
  */
 export const TAWK = {
-  propertyId: "6aabfdde856fa3344fd4bd71",
-  widgetId: "1k2ntfc22",
+  propertyId: "6aac168b42874a344a6ec2a6",
+  widgetId: "1k2o3g47d",
 };
