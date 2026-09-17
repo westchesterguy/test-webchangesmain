@@ -89,3 +89,17 @@ export const officeList: Office[] = [
   agent.offices.bedford,
   agent.offices.newCanaan,
 ];
+
+/**
+ * Tawk.to live chat. The property is Michael's; both sites share it, so a
+ * conversation started on one is the same inbox as the other.
+ *
+ * These two ids are public by design — they ship in the page source of every
+ * site that runs Tawk, and they only identify which widget to open. They are
+ * not credentials, and nothing here can read or send messages. The dashboard
+ * login is the thing that must stay private.
+ */
+export const TAWK = {
+  propertyId: "6aabfdde856fa3344fd4bd71",
+  widgetId: "1k2ntfc22",
+};

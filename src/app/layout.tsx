@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/JsonLd";
 import { CommandPalette } from "@/components/CommandPalette";
 import { SITE_URL, agent } from "@/lib/site";
+import { LiveChat } from "@/components/LiveChat";
 import "./globals.css";
 
 const inter = Inter({
@@ -89,6 +90,7 @@ export default function RootLayout({
         <CommandPalette />
         <Analytics />
         <SpeedInsights />
+        <LiveChat />
       </body>
     </html>
   );
