@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Overline } from "./Overline";
 import { agent } from "@/lib/site";
+import { Lockup } from "./Lockup";
 
 /**
  * Full-viewport cinematic hero. Recovered 2023 Bedford footage under
@@ -39,12 +40,13 @@ export function Hero() {
           mt-auto the section grows instead, and the pt keeps the mark
           clear of the header at every height. */}
       <div className="relative z-10 mt-auto w-full px-6 pb-10 pt-36 md:px-10 md:pb-12 md:pt-40">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/mw-dog-light.png"
-          alt=""
-          className="mb-4 h-8 w-auto animate-fade-in-up"
-          aria-hidden="true"
+        {/* The full lockup, the same mark and the same size the horse site
+            runs. This was a lone 32px dog, which read as a different brand
+            standing next to the other site's stacked mark. */}
+        <Lockup
+          variant="white"
+          width={220}
+          className="mb-6 h-auto w-28 animate-fade-in-up md:w-40"
         />
         <h1 className="font-display text-mega text-white animate-fade-in-up">
           The Westchester
