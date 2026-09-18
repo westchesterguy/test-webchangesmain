@@ -5,10 +5,10 @@ import { ActionCards } from "@/components/ActionCards";
 import { Statement } from "@/components/Statement";
 import { NeighborhoodGrid } from "@/components/NeighborhoodGrid";
 import { AboutTeaser } from "@/components/AboutTeaser";
-import { InstagramReels } from "@/components/InstagramReels";
 import { Insights } from "@/components/Insights";
 import { ContactPanel } from "@/components/ContactPanel";
 import { Footer } from "@/components/Footer";
+import { SocialFeed } from "@/components/SocialFeed";
 
 // Homepage: viewport hero → runway town ticker → full-bleed Buy/Sell/Rent →
 // editorial statement → neighborhood wall → about teaser → Instagram reels →
@@ -26,8 +26,8 @@ export default function Home() {
         <Statement />
         <NeighborhoodGrid />
         <AboutTeaser />
-        <InstagramReels />
         <Insights />
+        <SocialFeed />
         <ContactPanel />
       </main>
       <Footer />

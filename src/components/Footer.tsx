@@ -1,15 +1,12 @@
 import Link from "next/link";
 import { agent, officeList } from "@/lib/site";
 import { social } from "@/data/nav";
-import { SocialFeed } from "./SocialFeed";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <>
-      <SocialFeed />
-      <footer className="border-t border-border pt-12 pb-8 md:pt-16 md:pb-10">
+    <footer className="border-t border-border pt-12 pb-8 md:pt-16 md:pb-10">
       <div className="max-w-6xl mx-auto px-6 md:px-10">
         {/* Section A: Offices + Social Links */}
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8 mb-8">
@@ -152,6 +149,5 @@ export function Footer() {
         </div>
       </div>
     </footer>
-    </>
   );
 }
