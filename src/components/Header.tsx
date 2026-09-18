@@ -4,25 +4,29 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MarkBadge } from "./Lockup";
-import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
 import { openLiveChat } from "@/lib/liveChat";
+import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
 
 /**
- * Two-tier masthead, shared with westchesterhorseproperties.
+ * Two-tier masthead, shared with the horse site.
  *
- * Tier one is the band both sites run: the mark, then a tab per site, then
- * Ask Michael. The tabs do not change between domains — the same two labels
- * in the same order, with only the underline and the white/muted treatment
- * moving — so crossing from one site to the other reads as switching
- * sections, not leaving for another brokerage. Keep this markup in step with
- * the horse site's copy; only the config in data/nav.ts differs.
+ * Tier one names the site you are on, loudly, and offers the other one as a
+ * way out. The two are not peers any more: the site you are on is set large
+ * in white with a rule under it, and the other is a small muted "Go to"
+ * link with an outbound arrow. A visitor should never have to work out which
+ * address they are at, and two equal-weight tabs made them do exactly that.
+ * The current site is rendered first, next to the mark, whichever site this
+ * is — its own name leads.
  *
- * Tier two is the near-black band carrying whichever site you are on. It is
+ * Both bands run the full width of the window with a small gutter, so the
+ * mark sits near the edge rather than indented to the text column. Keep this
+ * file in step with the other site's copy; only the config differs.
+ *
+ * Tier two is the near-black band carrying this site's own navigation. It is
  * the only part of the chrome that differs between the two codebases.
  *
  * Heights are load-bearing: 64 + 48 = 112px below md, 80 + 48 = 128px at md
- * and up. Page heros reserve pt-36 md:pt-40 (144px, 160px) against those.
- * Change a tier height and that padding has to move with it.
+ * and up. Page heros reserve pt-36 md:pt-40 against those.
  */
 export function Header() {
   const pathname = usePathname();
@@ -35,6 +39,9 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const here = brands.find((b) => b.label === CURRENT_BRAND) ?? brands[0];
+  const there = brands.find((b) => b.label !== CURRENT_BRAND);
+
   return (
     <>
       <a
@@ -44,127 +51,127 @@ export function Header() {
         Skip to content
       </a>
       <header
-        className={`fixed inset-x-0 top-0 z-50 text-white transition-shadow duration-300 ${
-          scrolled ? "shadow-[var(--shadow-md)]" : ""
-        }`}
-      >
-        {/* Tier one — the shared band. Identical on both sites. */}
-        <div className="bg-masthead">
-          <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-5 md:h-20 md:gap-6 md:px-10">
+      className={`on-navy fixed inset-x-0 top-0 z-50 text-white transition-shadow duration-300 ${
+        scrolled ? "shadow-[var(--shadow-md)]" : ""
+      }`}
+    >
+      {/* Tier one — the shared band. */}
+      <div className="bg-masthead">
+        <div className="flex h-16 items-center gap-4 px-4 md:h-20 md:gap-7 md:px-6 lg:px-8">
+          <Link
+            href="/"
+            aria-label={`${here.label}, home`}
+            className="shrink-0 rounded-full transition-opacity hover:opacity-80"
+          >
+            <MarkBadge variant="white" className="h-9 w-9 md:h-11 md:w-11" />
+          </Link>
+
+          <nav
+            aria-label="Michael Winter sites"
+            className="flex h-full min-w-0 flex-1 items-stretch gap-4 md:gap-7"
+          >
+            {/* Where you are. The rule sits on the band's bottom edge. */}
             <Link
               href="/"
-              aria-label="The Westchester Guy, home"
-              className="shrink-0 rounded-full transition-opacity hover:opacity-80"
+              aria-current="true"
+              className="relative flex h-full shrink-0 items-center whitespace-nowrap font-semibold uppercase leading-none tracking-[0.02em] text-white text-[0.72rem] sm:text-[1rem] lg:text-[1.3rem] after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:bg-white"
             >
-              <MarkBadge variant="white" className="h-9 w-9 md:h-11 md:w-11" />
+              <span className="sm:hidden">{here.short}</span>
+              <span className="hidden sm:inline">{here.label}</span>
             </Link>
 
+            {/* Where you could go. A different origin, so a plain anchor. */}
+            {there && (
+              <a
+                href={there.href}
+                className="group flex shrink items-center gap-1.5 self-center overflow-hidden whitespace-nowrap font-medium uppercase tracking-[0.1em] text-white/50 transition-colors hover:text-white text-[0.55rem] sm:text-[0.62rem] lg:text-[0.72rem]"
+              >
+                <span className="hidden text-white/40 transition-colors group-hover:text-white/70 sm:inline">
+                  Go to
+                </span>
+                <span className="truncate border-b border-white/25 pb-0.5 transition-colors group-hover:border-white/70">
+                  <span className="sm:hidden">{there.short}</span>
+                  <span className="hidden sm:inline">{there.label}</span>
+                </span>
+                <svg
+                  viewBox="0 0 12 12"
+                  aria-hidden
+                  className="h-2.5 w-2.5 shrink-0 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                >
+                  <path
+                    d="M3 9L9 3M9 3H4.5M9 3v4.5"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    fill="none"
+                  />
+                </svg>
+              </a>
+            )}
+          </nav>
+
+          {/* Below sm the row is full, so Ask Michael moves to the end of
+              tier two. Both copies raise the Tawk widget and fall back to
+              their href when the embed has not loaded or was blocked. */}
+          <Link
+            href={ASK_MICHAEL_URL}
+            onClick={(e) => {
+              if (openLiveChat()) e.preventDefault();
+            }}
+            className="hidden shrink-0 border border-white px-4 py-2 text-[0.66rem] font-medium uppercase tracking-[0.1em] transition-colors hover:bg-white hover:text-masthead sm:block md:px-6 md:py-2.5 md:text-[0.72rem] md:tracking-[0.12em]"
+          >
+            Ask Michael
+          </Link>
+        </div>
+      </div>
+
+      {/* Tier two — this site's own navigation. Scrolls sideways on small
+          screens rather than collapsing into a menu, so the chrome keeps the
+          same two-band shape at every width. */}
+      <div className="bg-masthead-sub">
+        <div className="flex h-12 items-center px-4 md:px-6 lg:px-8">
+          <div className="relative min-w-0 flex-1">
             <nav
-              aria-label="Michael Winter sites"
-              className="flex h-full min-w-0 flex-1 items-stretch gap-4 md:gap-6 lg:gap-9"
+              aria-label="Main navigation"
+              className="flex items-center gap-6 overflow-x-auto [scrollbar-width:none] sm:overflow-visible md:gap-8 [&::-webkit-scrollbar]:hidden"
             >
-              {brands.map((brand) => {
-                const current = brand.label === CURRENT_BRAND;
-                const className = [
-                  "relative flex h-full items-center whitespace-nowrap font-medium uppercase",
-                  // The full domains are long. The big size waits for lg, because at md
-                // two of them plus the button overrun the row.
-                "text-[0.62rem] tracking-[0.06em] sm:text-[0.7rem] sm:tracking-[0.07em] lg:text-[0.9rem]",
-                  "transition-colors",
-                  current
-                    ? "text-white after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-white"
-                    : "text-white/45 hover:text-white/85",
-                ].join(" ");
-
-                const label = (
-                  <>
-                    <span className="sm:hidden">{brand.short}</span>
-                    <span className="hidden sm:inline">{brand.label}</span>
-                  </>
-                );
-
-                // The other site is a different origin, so it cannot be a Next
-                // link. aria-current marks the tab you are already on.
-                return brand.external ? (
-                  <a key={brand.label} href={brand.href} className={className}>
-                    {label}
-                  </a>
-                ) : (
+              {navLinks.map((item) => {
+                const active =
+                  pathname === item.href || pathname.startsWith(`${item.href}/`);
+                return (
                   <Link
-                    key={brand.label}
-                    href={brand.href}
-                    aria-current={current ? "true" : undefined}
-                    className={className}
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`shrink-0 text-small transition-colors ${
+                      active ? "text-white" : "text-white/65 hover:text-white"
+                    }`}
                   >
-                    {label}
+                    {item.label}
                   </Link>
                 );
               })}
             </nav>
+            {/* Scroll affordance for the row above; decorative only. */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-masthead-sub to-transparent sm:hidden"
+            />
+          </div>
 
-            {/* Below sm the two tabs already fill the row, so Ask Michael
-                moves to the end of tier two rather than overlapping them.
-                Both copies raise the Tawk widget and fall back to their href
-                when the embed has not loaded or was blocked. */}
-            <Link
-              href={ASK_MICHAEL_URL}
+          <Link
+            href={ASK_MICHAEL_URL}
             onClick={(e) => {
               if (openLiveChat()) e.preventDefault();
             }}
-              className="hidden shrink-0 border border-white px-4 py-2 text-[0.66rem] font-medium uppercase tracking-[0.1em] transition-colors hover:bg-white hover:text-masthead sm:block md:px-6 md:py-2.5 md:text-[0.72rem] md:tracking-[0.12em]"
-            >
-              Ask Michael
-            </Link>
-          </div>
+            className="ml-3 shrink-0 border border-white px-3 py-1 text-[0.6rem] font-medium uppercase tracking-[0.1em] transition-colors hover:bg-white hover:text-masthead-sub sm:hidden"
+          >
+            Ask Michael
+          </Link>
         </div>
-
-        {/* Tier two — this site's own navigation. Scrolls sideways on small
-            screens rather than collapsing into a menu, so the chrome keeps
-            the same two-band shape at every width. */}
-        <div className="bg-masthead-sub">
-          <div className="mx-auto flex h-12 max-w-6xl items-center px-5 md:px-10">
-            <div className="relative min-w-0 flex-1">
-              <nav
-                aria-label="Main navigation"
-                className="flex items-center gap-6 overflow-x-auto [scrollbar-width:none] sm:overflow-visible md:gap-8 [&::-webkit-scrollbar]:hidden"
-              >
-                {navLinks.map((link) => {
-                  const active =
-                    pathname === link.href ||
-                    pathname.startsWith(`${link.href}/`);
-                  return (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      aria-current={active ? "page" : undefined}
-                      className={`shrink-0 text-small transition-colors ${
-                        active ? "text-white" : "text-white/65 hover:text-white"
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  );
-                })}
-              </nav>
-              {/* Scroll affordance for the row above; decorative only. */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-masthead-sub to-transparent sm:hidden"
-              />
-            </div>
-
-            <Link
-              href={ASK_MICHAEL_URL}
-            onClick={(e) => {
-              if (openLiveChat()) e.preventDefault();
-            }}
-              className="ml-3 shrink-0 border border-white px-3 py-1 text-[0.6rem] font-medium uppercase tracking-[0.1em] transition-colors hover:bg-white hover:text-masthead-sub sm:hidden"
-            >
-              Ask Michael
-            </Link>
-          </div>
-        </div>
-      </header>
+      </div>
+    </header>
     </>
   );
 }
