@@ -1,5 +1,4 @@
 import { agent } from "@/lib/site";
-import type { PlatformName } from "@/components/SocialIcons";
 
 /**
  * Content for the social feed that closes every page. Kept in step with the
@@ -13,13 +12,15 @@ import type { PlatformName } from "@/components/SocialIcons";
  *   the Instagram Graph API and the cards can carry real ones.
  * - Every card links to a real @westchesternyhomes reel and uses that reel's
  *   own thumbnail.
- * - The icon row lists only accounts whose URL is confirmed. site.ts marks
+ * - The header row lists only accounts whose URL is confirmed. site.ts marks
  *   the Facebook and X handles as unverified since 2023; they stay out until
- *   someone checks them, then they are a one-line addition here.
+ *   someone checks them, then they are a one-line addition here — the row is
+ *   set in words, so a new platform needs no artwork.
  */
 
 export interface SocialProfile {
-  label: PlatformName;
+  /** Shown as the link's text, so it reads as a name, not a key. */
+  label: string;
   href: string;
 }
 

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MarkBadge } from "./Lockup";
-import { ChevronIcon, InstagramIcon, platformIcons } from "./SocialIcons";
+import { ChevronIcon, InstagramIcon } from "./SocialIcons";
 import { socialAccount, socialFeed, socialProfiles } from "@/data/social";
 
 /**
@@ -82,24 +82,41 @@ export function SocialFeed() {
             </h2>
           </div>
 
-          {/* Only the platforms that actually have a URL in site.ts. */}
-          <ul className="flex items-center gap-3">
-            {socialProfiles.map((profile) => {
-              const Icon = platformIcons[profile.label];
-              return (
-                <li key={profile.label}>
-                  <a
-                    href={profile.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${socialAccount.name} on ${profile.label}`}
-                    className="flex h-11 w-11 items-center justify-center bg-navy text-white transition-colors hover:bg-navy-light"
+          {/* Set in words, not logos. Two navy squares stamped someone
+              else's branding onto the one part of the page that is meant to
+              be his, and the section already says whose feed this is — the
+              account names only have to be legible and get out of the way.
+              Only platforms with a confirmed URL in site.ts appear. */}
+          <ul className="flex items-center gap-7 md:gap-9">
+            {socialProfiles.map((profile) => (
+              <li key={profile.label}>
+                <a
+                  href={profile.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${socialAccount.name} on ${profile.label}`}
+                  className="group inline-flex items-center gap-2 text-caption uppercase tracking-[0.2em] text-charcoal-muted transition-colors hover:text-charcoal"
+                >
+                  <span className="border-b border-charcoal/20 pb-1 transition-colors group-hover:border-charcoal">
+                    {profile.label}
+                  </span>
+                  <svg
+                    viewBox="0 0 12 12"
+                    aria-hidden
+                    className="h-2.5 w-2.5 shrink-0 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"
                   >
-                    <Icon className="h-5 w-5" />
-                  </a>
-                </li>
-              );
-            })}
+                    <path
+                      d="M3 9L9 3M9 3H4.5M9 3v4.5"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      fill="none"
+                    />
+                  </svg>
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
