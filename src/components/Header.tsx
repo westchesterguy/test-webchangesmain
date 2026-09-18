@@ -70,11 +70,15 @@ export function Header() {
             aria-label="Michael Winter sites"
             className="flex h-full min-w-0 flex-1 items-stretch gap-4 md:gap-7"
           >
-            {/* Where you are. The rule sits on the band's bottom edge. */}
+            {/* Where you are. The rule sits on the band's bottom edge.
+                Set in the hero's serif, lowercase, because that face is the
+                brand's voice and an address is read, not shouted. The way-out
+                link below stays in the sans on purpose — the contrast is what
+                separates the name from the navigation. */}
             <Link
               href="/"
               aria-current="true"
-              className="relative flex h-full shrink-0 items-center whitespace-nowrap font-semibold uppercase leading-none tracking-[0.02em] text-white text-[0.72rem] sm:text-[1rem] lg:text-[1.3rem] after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:bg-white"
+              className="relative flex h-full shrink-0 items-center whitespace-nowrap font-display font-semibold lowercase leading-none tracking-[-0.015em] text-white text-[0.95rem] sm:text-[1.3rem] lg:text-[1.75rem] after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:bg-white"
             >
               <span className="sm:hidden">{here.short}</span>
               <span className="hidden sm:inline">{here.label}</span>

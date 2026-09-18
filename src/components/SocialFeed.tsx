@@ -64,7 +64,7 @@ export function SocialFeed() {
             </p>
             <h2
               id="social-feed-heading"
-              className="mt-2 text-balance text-[1.75rem] uppercase leading-[1.05] tracking-tight text-charcoal sm:text-[2rem] md:text-[2.75rem]"
+              className="mt-3 text-balance font-display leading-[1.08] tracking-[-0.015em] text-charcoal text-[2rem] sm:text-[2.5rem] md:text-[3.25rem]"
             >
               {socialAccount.heading.map((part, i) => (
                 <span
@@ -72,7 +72,7 @@ export function SocialFeed() {
                   className={
                     part.weight === "strong"
                       ? "font-semibold"
-                      : "font-light text-charcoal-light"
+                      : "font-normal text-charcoal-muted"
                   }
                 >
                   {i > 0 ? " " : ""}
