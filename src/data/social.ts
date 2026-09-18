@@ -28,9 +28,25 @@ export const socialProfiles: SocialProfile[] = [
   { label: "LinkedIn", href: agent.social.linkedin },
 ];
 
+export interface HeadingPart {
+  text: string;
+  weight: "strong" | "light";
+}
+
 export const socialAccount = {
   name: "The Westchester Guy",
   handle: "@westchesternyhomes",
+  /**
+   * The band's heading, in render order. The light part sets up the strong
+   * part, so the name lands last and carries the weight — on the hub the
+   * section is an invitation to follow a person, not a feature called
+   * "Social Feed". Two parts, because one word of contrast is what keeps the
+   * line from reading as a label.
+   */
+  heading: [
+    { text: "Follow", weight: "light" },
+    { text: "Michael Winter", weight: "strong" },
+  ] as HeadingPart[],
 };
 
 export interface SocialPost {

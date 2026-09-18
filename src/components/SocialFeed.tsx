@@ -64,10 +64,21 @@ export function SocialFeed() {
             </p>
             <h2
               id="social-feed-heading"
-              className="mt-2 text-[2rem] uppercase leading-none tracking-tight text-charcoal md:text-[2.75rem]"
+              className="mt-2 text-balance text-[1.75rem] uppercase leading-[1.05] tracking-tight text-charcoal sm:text-[2rem] md:text-[2.75rem]"
             >
-              <span className="font-semibold">Social</span>{" "}
-              <span className="font-light text-charcoal-light">Feed</span>
+              {socialAccount.heading.map((part, i) => (
+                <span
+                  key={part.text}
+                  className={
+                    part.weight === "strong"
+                      ? "font-semibold"
+                      : "font-light text-charcoal-light"
+                  }
+                >
+                  {i > 0 ? " " : ""}
+                  {part.text}
+                </span>
+              ))}
             </h2>
           </div>
 
