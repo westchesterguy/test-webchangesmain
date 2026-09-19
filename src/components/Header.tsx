@@ -12,7 +12,7 @@ import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
  *
  * Tier one names the site you are on, loudly, and offers the other one as a
  * way out. The two are not peers any more: the site you are on is set large
- * in white with a rule under it, and the other is a small muted "Go to"
+ * in white with a rule under it, and the other is a small muted "Visit"
  * link with an outbound arrow. A visitor should never have to work out which
  * address they are at, and two equal-weight tabs made them do exactly that.
  * The current site is rendered first, next to the mark, whichever site this
@@ -91,7 +91,7 @@ export function Header() {
                 className="group flex shrink items-center gap-1.5 self-center overflow-hidden whitespace-nowrap font-medium uppercase tracking-[0.1em] text-white/50 transition-colors hover:text-white text-[0.55rem] sm:text-[0.62rem] lg:text-[0.72rem]"
               >
                 <span className="hidden text-white/40 transition-colors group-hover:text-white/70 sm:inline">
-                  Go to
+                  Visit
                 </span>
                 <span className="truncate border-b border-white/25 pb-0.5 transition-colors group-hover:border-white/70">
                   <span className="sm:hidden">{there.short}</span>
