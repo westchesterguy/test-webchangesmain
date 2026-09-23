@@ -119,15 +119,23 @@ export function Header() {
             Ask Michael
           </Link>
 
-          {/* Where you could go. Same face and same size as the name on the
-              left, and no rule under it — the rule means "you are here", so
-              it belongs to one of the two at a time. A different origin, so a
-              plain anchor rather than a Next link. */}
+          {/* Where you could go. The name is the same face and the same size
+              as the one on the left, with no rule under it — the rule means
+              "you are here", so it belongs to one of the two at a time. A
+              different origin, so a plain anchor rather than a Next link. */}
           {there ? (
             <a
               href={there.href}
               className={`${SITE_NAME} group flex min-w-0 items-center justify-end gap-2 text-white/45 transition-colors hover:text-white/85`}
             >
+              {/* A label in front of the name, not part of it: the sans at
+                  label size against the serif at name size is what keeps it
+                  from reading as though the site were called "Visit
+                  something". Hidden below sm, where the row has no room for
+                  it and a truncated destination would be worse. */}
+              <span className="hidden shrink-0 font-sans text-[0.6rem] font-medium uppercase tracking-[0.14em] text-white/35 transition-colors group-hover:text-white/60 sm:block lg:text-[0.68rem]">
+                Visit
+              </span>
               <span className="block truncate whitespace-nowrap sm:hidden">{there.short}</span>
               <span className="hidden truncate whitespace-nowrap sm:block">{there.label}</span>
               <svg
