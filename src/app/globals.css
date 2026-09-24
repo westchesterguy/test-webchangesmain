@@ -325,3 +325,19 @@ button:focus-visible {
     width: max(2.5rem, calc((100vw - 72rem) / 2 + 2.5rem));
   }
 }
+
+/* The navigation row's "more this way" chevron. A small, slow drift: enough
+   to read as an invitation to swipe, not enough to pull the eye off the page.
+   Motion is opt-out, so it stops for anyone who asked for reduced motion. */
+@keyframes nudge {
+  0%, 60%, 100% { transform: translateX(0); }
+  30% { transform: translateX(3px); }
+}
+.animate-nudge {
+  animation: nudge 2.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-nudge {
+    animation: none;
+  }
+}

@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { MarkBadge } from "./Lockup";
+import { ChevronIcon } from "./SocialIcons";
 import { openLiveChat } from "@/lib/liveChat";
 import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
 
@@ -61,6 +62,31 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+
+  // The navigation row scrolls sideways when it does not fit. Nothing about a
+  // cut-off row says "there is more" on a touch screen — no scrollbar, no
+  // cursor — so the edges report themselves: a fade and a chevron appear on
+  // whichever side still has items, and go when that side runs out.
+  const navRef = useRef<HTMLElement>(null);
+  const [navAtStart, setNavAtStart] = useState(true);
+  const [navAtEnd, setNavAtEnd] = useState(true);
+
+  const syncNav = useCallback(() => {
+    const el = navRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setNavAtStart(el.scrollLeft <= 1);
+    // max <= 1 means the row fits, so neither edge should show anything.
+    setNavAtEnd(max <= 1 || el.scrollLeft >= max - 1);
+  }, []);
+
+  useEffect(() => {
+    syncNav();
+    window.addEventListener("resize", syncNav);
+    return () => window.removeEventListener("resize", syncNav);
+    // pathname is a dependency because the active item changes width.
+  }, [syncNav, pathname]);
 
   const here = brands.find((b) => b.label === CURRENT_BRAND) ?? brands[0];
   const there = brands.find((b) => b.label !== CURRENT_BRAND);
@@ -170,7 +196,9 @@ export function Header() {
           <div className="relative min-w-0 flex-1">
             <nav
               aria-label="Main navigation"
-              className="flex items-center gap-6 overflow-x-auto [scrollbar-width:none] sm:overflow-visible md:gap-8 [&::-webkit-scrollbar]:hidden"
+              ref={navRef}
+              onScroll={syncNav}
+              className="flex items-center gap-6 overflow-x-auto scroll-smooth pr-8 [scrollbar-width:none] md:gap-8 md:pr-0 [&::-webkit-scrollbar]:hidden"
             >
               {navLinks.map((item) => {
                 const active =
@@ -189,11 +217,23 @@ export function Header() {
                 );
               })}
             </nav>
-            {/* Scroll affordance for the row above; decorative only. */}
+            {/* Decorative: the row itself is what scrolls. Kept out of the
+                tap targets so a thumb reaching for the last item does not
+                land on the hint instead. */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-masthead-sub to-transparent sm:hidden"
+              className={`pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-masthead-sub to-transparent transition-opacity duration-200 ${
+                navAtStart ? "opacity-0" : "opacity-100"
+              }`}
             />
+            <div
+              aria-hidden
+              className={`pointer-events-none absolute inset-y-0 right-0 flex w-16 items-center justify-end bg-gradient-to-l from-masthead-sub from-25% to-transparent transition-opacity duration-200 ${
+                navAtEnd ? "opacity-0" : "opacity-100"
+              }`}
+            >
+              <ChevronIcon className="h-3.5 w-3.5 animate-nudge text-white/80" />
+            </div>
           </div>
 
         </div>
