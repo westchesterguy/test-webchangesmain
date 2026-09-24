@@ -39,13 +39,15 @@ import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
  * and up. Page heros reserve pt-36 md:pt-40 against those.
  */
 /**
- * Typography shared by both site names, so "same face, same size" cannot
- * drift between them. The steps are set by the tightest fit: at each width
- * the two domains, the mark and the button have to sit on one row without
- * meeting.
+ * Typography shared by both site names and by the "Visit" that introduces
+ * the second, so "same face, same size" cannot drift between them. The steps
+ * are set by the tightest fit: at each width the two names, the label, the
+ * mark and the button have to sit on one row without meeting. The extra step
+ * below 360px is for the narrowest phones, where the label costs enough room
+ * to start eating the names.
  */
 const SITE_NAME =
-  "min-w-0 font-display font-semibold lowercase leading-none tracking-[-0.015em] text-[0.8rem] sm:text-[0.95rem] lg:text-[1.2rem] xl:text-[1.6rem]";
+  "min-w-0 font-display font-semibold lowercase leading-none tracking-[-0.015em] text-[0.66rem] min-[360px]:text-[0.8rem] sm:text-[0.95rem] lg:text-[1.2rem] xl:text-[1.6rem]";
 
 export function Header() {
   const pathname = usePathname();
@@ -80,8 +82,8 @@ export function Header() {
             the two domains differ in length. Below sm the middle cell is
             empty — the button lives in tier two there — and the two side
             columns simply split the row. */}
-        <div className="grid h-16 grid-cols-[minmax(0,auto)_auto_minmax(0,1fr)] items-center gap-3 px-4 md:h-20 md:gap-6 md:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-8">
-          <div className="flex h-full min-w-0 items-center gap-3 md:gap-5">
+        <div className="grid h-16 grid-cols-[minmax(0,auto)_auto_minmax(0,1fr)] items-center gap-2 px-3 min-[360px]:gap-3 min-[360px]:px-4 md:h-20 md:gap-6 md:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-8">
+          <div className="flex h-full min-w-0 items-center gap-2 min-[360px]:gap-3 md:gap-5">
             <Link
               href="/"
               aria-label={`${here.label}, home`}
@@ -126,16 +128,12 @@ export function Header() {
           {there ? (
             <a
               href={there.href}
-              className={`${SITE_NAME} group flex min-w-0 items-center justify-end gap-2 text-white/45 transition-colors hover:text-white/85`}
+              className={`${SITE_NAME} group flex min-w-0 items-center justify-end gap-2 text-white transition-opacity hover:opacity-80`}
             >
-              {/* A label in front of the name, not part of it: the sans at
-                  label size against the serif at name size is what keeps it
-                  from reading as though the site were called "Visit
-                  something". Hidden below sm, where the row has no room for
-                  it and a truncated destination would be worse. */}
-              <span className="hidden shrink-0 font-sans text-[0.6rem] font-medium uppercase tracking-[0.14em] text-white/35 transition-colors group-hover:text-white/60 sm:block lg:text-[0.68rem]">
-                Visit
-              </span>
+              {/* Same face and same size as the name it introduces, set in
+                  caps so the two still read as label and address rather than
+                  one long phrase. Shown at every width, phones included. */}
+              <span className="shrink-0 uppercase">Visit</span>
               <span className="block truncate whitespace-nowrap sm:hidden">{there.short}</span>
               <span className="hidden truncate whitespace-nowrap sm:block">{there.label}</span>
               <svg
