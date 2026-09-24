@@ -17,12 +17,14 @@ import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
  * only thing that says which you are at, and it appears only on the site you
  * are on. The current site always takes the left, whichever site this is.
  *
- * From lg the grid is 1fr auto 1fr, so the side columns are equal and the
- * middle sits on the window's centre line however much longer one domain is
- * than the other. Below lg the columns size to content instead: equal halves
- * give the left exactly half the row, and "westchesterhorseproperties.com" is
- * two-thirds longer than the name opposite it, so it was the one that got
- * cut. The button moves to tier two there for the same reason.
+ * All three zones are present at every width, phones included. From lg the
+ * grid is 1fr auto 1fr, so the side columns are equal and Ask Michael sits on
+ * the window's centre line however much longer one domain is than the other.
+ * Below lg the columns size to their content and the button sits between the
+ * two rather than dead centre: equal halves give the left exactly half the
+ * row, the mark is in that half too, and the longer domain is two-thirds
+ * longer than the name opposite — forcing the split there either clipped a
+ * name or drove the type down to eight pixels.
  *
  * Both names carry min-w-0 and truncate their own span. Without it the links
  * refuse to shrink below their text and the two names run straight into each
@@ -47,7 +49,7 @@ import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
  * to start eating the names.
  */
 const SITE_NAME =
-  "min-w-0 font-display font-semibold lowercase leading-none tracking-[-0.015em] text-[0.66rem] min-[360px]:text-[0.8rem] sm:text-[0.95rem] lg:text-[1.2rem] xl:text-[1.6rem]";
+  "min-w-0 font-display font-semibold lowercase leading-none tracking-[-0.015em] text-[0.53rem] min-[360px]:text-[0.62rem] min-[414px]:text-[0.7rem] sm:text-[0.85rem] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.6rem]";
 
 export function Header() {
   const pathname = usePathname();
@@ -82,14 +84,14 @@ export function Header() {
             the two domains differ in length. Below sm the middle cell is
             empty — the button lives in tier two there — and the two side
             columns simply split the row. */}
-        <div className="grid h-16 grid-cols-[minmax(0,auto)_auto_minmax(0,1fr)] items-center gap-2 px-3 min-[360px]:gap-3 min-[360px]:px-4 md:h-20 md:gap-6 md:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-8">
-          <div className="flex h-full min-w-0 items-center gap-2 min-[360px]:gap-3 md:gap-5">
+        <div className="grid h-16 grid-cols-[minmax(0,auto)_auto_minmax(0,1fr)] items-center gap-1.5 px-3 min-[360px]:px-4 min-[414px]:gap-3 md:h-20 md:gap-5 md:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-8">
+          <div className="flex h-full min-w-0 items-center gap-1.5 min-[414px]:gap-3 md:gap-5">
             <Link
               href="/"
               aria-label={`${here.label}, home`}
               className="shrink-0 rounded-full transition-opacity hover:opacity-80"
             >
-              <MarkBadge variant="white" className="h-9 w-9 md:h-11 md:w-11" />
+              <MarkBadge variant="white" className="h-7 w-7 min-[360px]:h-8 min-[360px]:w-8 sm:h-9 sm:w-9 md:h-11 md:w-11" />
             </Link>
 
             {/* Where you are. The rule sits on the band's bottom edge. Set in
@@ -116,7 +118,7 @@ export function Header() {
             onClick={(e) => {
               if (openLiveChat()) e.preventDefault();
             }}
-            className="hidden shrink-0 border border-white px-4 py-2 text-[0.66rem] font-medium uppercase tracking-[0.1em] transition-colors hover:bg-white hover:text-masthead lg:block lg:px-6 lg:py-2.5 lg:text-[0.72rem] lg:tracking-[0.12em]"
+            className="shrink-0 whitespace-nowrap border border-white px-2 py-1 text-[0.42rem] font-medium uppercase tracking-[0.04em] transition-colors hover:bg-white hover:text-masthead min-[414px]:px-3 min-[414px]:text-[0.52rem] min-[414px]:tracking-[0.06em] sm:px-4 sm:py-2 sm:text-[0.62rem] sm:tracking-[0.1em] lg:px-6 lg:py-2.5 lg:text-[0.72rem] lg:tracking-[0.12em]"
           >
             Ask Michael
           </Link>
@@ -128,12 +130,15 @@ export function Header() {
           {there ? (
             <a
               href={there.href}
-              className={`${SITE_NAME} group flex min-w-0 items-center justify-end gap-2 text-white transition-opacity hover:opacity-80`}
+              className={`${SITE_NAME} group flex min-w-0 items-center justify-end gap-1.5 text-white transition-opacity hover:opacity-80 min-[414px]:gap-2`}
             >
-              {/* Same face and same size as the name it introduces, set in
-                  caps so the two still read as label and address rather than
-                  one long phrase. Shown at every width, phones included. */}
-              <span className="shrink-0 uppercase">Visit</span>
+              {/* Deliberately not the names' face: the sans against the serif
+                  is what separates the instruction from the address, so the
+                  two do not read as one long phrase. Same size and same
+                  white, at every width. */}
+              <span className="shrink-0 font-sans font-medium uppercase tracking-[0.06em]">
+                Visit
+              </span>
               <span className="block truncate whitespace-nowrap sm:hidden">{there.short}</span>
               <span className="hidden truncate whitespace-nowrap sm:block">{there.label}</span>
               <svg
@@ -191,15 +196,6 @@ export function Header() {
             />
           </div>
 
-          <Link
-            href={ASK_MICHAEL_URL}
-            onClick={(e) => {
-              if (openLiveChat()) e.preventDefault();
-            }}
-            className="ml-3 shrink-0 border border-white px-3 py-1 text-[0.6rem] font-medium uppercase tracking-[0.1em] transition-colors hover:bg-white hover:text-masthead-sub lg:hidden"
-          >
-            Ask Michael
-          </Link>
         </div>
       </div>
     </header>
