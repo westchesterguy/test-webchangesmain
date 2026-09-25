@@ -31,12 +31,15 @@ const GAP = 20;
 
 export function SocialFeedCarousel({
   posts,
+  accountName,
   handle,
   profiles,
   platform = "instagram",
   showHeader = true,
 }: {
   posts: SocialPost[];
+  /** Whose posts these are. The two rails are two different identities. */
+  accountName: string;
   handle: string;
   profiles: SocialProfile[];
   /** Decides the glyph on each card. */
@@ -83,7 +86,7 @@ export function SocialFeedCarousel({
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
           <div>
             <p className="text-overline font-medium uppercase text-charcoal-muted">
-              {socialAccount.name}
+              {accountName}
             </p>
             <h2
               id="social-feed-heading"
@@ -117,7 +120,7 @@ export function SocialFeedCarousel({
                   href={profile.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`${socialAccount.name} on ${profile.label}`}
+                  aria-label={`${accountName} on ${profile.label}`}
                   className="group inline-flex items-center gap-2 text-caption uppercase tracking-[0.2em] text-charcoal-muted transition-colors hover:text-charcoal"
                 >
                   <span className="border-b border-charcoal/20 pb-1 transition-colors group-hover:border-charcoal">
@@ -165,7 +168,7 @@ export function SocialFeedCarousel({
                     <MarkBadge variant="white" className="h-9 w-9 bg-navy" />
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-caption font-semibold normal-case tracking-normal text-charcoal">
-                        {socialAccount.name}
+                        {accountName}
                       </span>
                       <span className="block truncate text-caption normal-case tracking-normal text-charcoal-muted">
                         {handle}

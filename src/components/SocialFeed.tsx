@@ -49,12 +49,19 @@ export async function SocialFeed() {
       aria-labelledby="social-feed-heading"
       className="border-t border-border bg-surface"
     >
-      <SocialFeedCarousel posts={posts} handle={handle ?? socialAccount.handle} profiles={profiles} />
-      {/* LinkedIn has no @handle, so the second line carries the headline the
-          way LinkedIn itself does, rather than repeating the name. */}
+      <SocialFeedCarousel
+        posts={posts}
+        accountName={socialAccount.name}
+        handle={handle ?? socialAccount.handle}
+        profiles={profiles}
+      />
+      {/* The LinkedIn rail is Michael's own profile, so it carries his name
+          and his headline — the way LinkedIn itself labels a post — rather
+          than the site's brand account and an @handle it does not have. */}
       {linkedIn.length > 0 && (
         <SocialFeedCarousel
           posts={linkedIn}
+          accountName={agent.name}
           handle={agent.title}
           profiles={profiles}
           platform="linkedin"
