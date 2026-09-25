@@ -32,6 +32,7 @@ const GAP = 20;
 export function SocialFeedCarousel({
   posts,
   accountName,
+  avatar,
   handle,
   profiles,
   platform = "instagram",
@@ -40,6 +41,12 @@ export function SocialFeedCarousel({
   posts: SocialPost[];
   /** Whose posts these are. The two rails are two different identities. */
   accountName: string;
+  /**
+   * The face on each card. Defaults to the brand mark; the LinkedIn rail
+   * passes Michael's profile photo, because that is the avatar those posts
+   * actually carry on LinkedIn and a card should look like where it came from.
+   */
+  avatar?: string;
   handle: string;
   profiles: SocialProfile[];
   /** Decides the glyph on each card. */
@@ -165,7 +172,18 @@ export function SocialFeedCarousel({
                   className="group block h-full border border-border bg-warm-white transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
                 >
                   <div className="flex items-center gap-3 p-3">
-                    <MarkBadge variant="white" className="h-9 w-9 bg-navy" />
+                    {avatar ? (
+                      <Image
+                        src={avatar}
+                        alt=""
+                        aria-hidden
+                        width={144}
+                        height={144}
+                        className="h-9 w-9 shrink-0 rounded-full object-cover"
+                      />
+                    ) : (
+                      <MarkBadge variant="white" className="h-9 w-9 bg-navy" />
+                    )}
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-caption font-semibold normal-case tracking-normal text-charcoal">
                         {accountName}

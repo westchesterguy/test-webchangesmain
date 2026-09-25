@@ -62,6 +62,7 @@ export async function SocialFeed() {
         <SocialFeedCarousel
           posts={linkedIn}
           accountName={agent.name}
+          avatar="/images/mw-linkedin-avatar.jpg"
           handle={agent.title}
           profiles={profiles}
           platform="linkedin"
