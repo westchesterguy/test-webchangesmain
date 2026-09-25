@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MarkBadge } from "./Lockup";
-import { ChevronIcon, InstagramIcon } from "./SocialIcons";
+import { ChevronIcon, InstagramIcon, LinkedInIcon } from "./SocialIcons";
 import { socialAccount, type SocialPost, type SocialProfile } from "@/data/social";
 
 /**
@@ -33,11 +33,18 @@ export function SocialFeedCarousel({
   posts,
   handle,
   profiles,
+  platform = "instagram",
+  showHeader = true,
 }: {
   posts: SocialPost[];
   handle: string;
   profiles: SocialProfile[];
+  /** Decides the glyph on each card. */
+  platform?: "instagram" | "linkedin";
+  /** The second rail runs headerless — one heading covers the band. */
+  showHeader?: boolean;
 }) {
+  const PlatformIcon = platform === "linkedin" ? LinkedInIcon : InstagramIcon;
   const rail = useRef<HTMLUListElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
@@ -64,10 +71,14 @@ export function SocialFeedCarousel({
   };
 
   return (
-    <section
-      aria-labelledby="social-feed-heading"
-      className="border-t border-border bg-surface py-14 md:py-20"
+    <div
+      className={
+        showHeader
+          ? "pt-14 md:pt-20"
+          : "pb-14 md:pb-20"
+      }
     >
+      {showHeader && (
       <div className="mx-auto max-w-6xl px-6 md:px-10">
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
           <div>
@@ -132,8 +143,9 @@ export function SocialFeedCarousel({
           </ul>
         </div>
       </div>
+      )}
 
-      <div className="relative mt-8 md:mt-10">
+      <div className={showHeader ? "relative mt-8 md:mt-10" : "relative mt-4 md:mt-5"}>
         <ul
           ref={rail}
           onScroll={sync}
@@ -159,7 +171,7 @@ export function SocialFeedCarousel({
                         {handle}
                       </span>
                     </span>
-                    <InstagramIcon className="h-4 w-4 shrink-0 text-charcoal-muted" />
+                    <PlatformIcon className="h-4 w-4 shrink-0 text-charcoal-muted" />
                   </div>
 
                   <div className="relative aspect-square overflow-hidden bg-cream-dark">
@@ -209,6 +221,6 @@ export function SocialFeedCarousel({
           );
         })}
       </div>
-    </section>
+    </div>
   );
 }
