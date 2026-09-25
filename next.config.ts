@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    // Behold re-hosts every Instagram image on its own domain. The raw
+    // cdninstagram URLs in the same payload are signed and expire within
+    // hours, so they are deliberately not listed here — nothing should be
+    // able to render one by accident.
+    remotePatterns: [
+      { protocol: "https", hostname: "behold.pictures" },
+      { protocol: "https", hostname: "**.behold.pictures" },
+    ],
   },
   async redirects() {
     return [
