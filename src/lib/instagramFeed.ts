@@ -33,8 +33,16 @@ const FEED_URL =
   process.env.BEHOLD_FEED_URL ??
   "https://feeds.behold.so/2nN9kAtioTuEfwKxEbVc";
 
-/** How long a cached copy is served before Next refetches, in seconds. */
-const REVALIDATE = 3600;
+/**
+ * How long a cached copy is served before Next refetches, in seconds.
+ *
+ * Half an hour, deliberately no longer than Behold's own pull from Instagram:
+ * the two waits stack, and a cache slower than the source adds delay that
+ * buys nothing. Next also serves the stale copy to the first visitor after
+ * this expires while it rebuilds behind them, so a new post can need one
+ * further reload. Shorten this if Behold's plan starts pulling more often.
+ */
+const REVALIDATE = 1800;
 
 interface BeholdSize {
   width?: number;
