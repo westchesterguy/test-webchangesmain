@@ -57,6 +57,15 @@ export interface SocialPost {
   /** Short caption shown under the frame. Never a metric. */
   title: string;
   alt: string;
+  /**
+   * Which platform this post came from, when the post itself knows.
+   *
+   * The Instagram and LinkedIn rails are each one platform, so their cards
+   * take the glyph from the rail. An aggregated rail is mixed, and there a
+   * card has to say for itself where it came from — otherwise a TikTok post
+   * and an Instagram post sit side by side under the same mark.
+   */
+  platform?: "instagram" | "linkedin" | "tiktok";
 }
 
 export const socialFeed: SocialPost[] = [

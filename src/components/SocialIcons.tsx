@@ -1,10 +1,11 @@
 /**
- * The two glyphs the feed still needs, drawn inline so the band costs no
+ * The platform glyphs the feed needs, drawn inline so the band costs no
  * extra request.
  *
- * Each card marks which platform its post came from, so both glyphs are
- * needed again now that the band carries an Instagram rail and a LinkedIn
- * one. The header row still names its accounts in words, not logos.
+ * Each card marks which platform its post came from, which matters most on
+ * the aggregated rail: those posts arrive mixed, so the glyph is the only
+ * thing telling a TikTok card from an Instagram one. The header row still
+ * names its accounts in words, not logos.
  */
 
 type IconProps = { className?: string };
@@ -23,6 +24,14 @@ export function LinkedInIcon({ className = "" }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
       <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4v11H3v-11zm7 0h3.8v1.5h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75v5.7h-4v-5.05c0-1.2-.02-2.75-1.75-2.75-1.75 0-2.02 1.31-2.02 2.66v5.14h-4v-11z" />
+    </svg>
+  );
+}
+
+export function TikTokIcon({ className = "" }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+      <path d="M16.2 2h-3.1v13.2a2.6 2.6 0 1 1-2.2-2.57V9.5a5.7 5.7 0 1 0 5.3 5.68V8.9a6.9 6.9 0 0 0 4.05 1.3V7.1a4.06 4.06 0 0 1-4.05-4.05V2z" />
     </svg>
   );
 }

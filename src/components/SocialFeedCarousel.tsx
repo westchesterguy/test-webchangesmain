@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MarkBadge } from "./Lockup";
-import { ChevronIcon, InstagramIcon, LinkedInIcon } from "./SocialIcons";
+import { ChevronIcon, InstagramIcon, LinkedInIcon, TikTokIcon } from "./SocialIcons";
 import { socialAccount, type SocialPost, type SocialProfile } from "@/data/social";
 
 /**
@@ -49,12 +49,20 @@ export function SocialFeedCarousel({
   avatar?: string;
   handle: string;
   profiles: SocialProfile[];
-  /** Decides the glyph on each card. */
-  platform?: "instagram" | "linkedin";
+  /**
+   * The glyph a card falls back to. A post that names its own platform wins
+   * over this, so an aggregated rail can be mixed while a single-platform
+   * rail still needs only one setting.
+   */
+  platform?: "instagram" | "linkedin" | "tiktok";
   /** The second rail runs headerless — one heading covers the band. */
   showHeader?: boolean;
 }) {
-  const PlatformIcon = platform === "linkedin" ? LinkedInIcon : InstagramIcon;
+  const GLYPHS = {
+    instagram: InstagramIcon,
+    linkedin: LinkedInIcon,
+    tiktok: TikTokIcon,
+  } as const;
   const rail = useRef<HTMLUListElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
@@ -188,11 +196,21 @@ export function SocialFeedCarousel({
                       <span className="block truncate text-caption font-semibold normal-case tracking-normal text-charcoal">
                         {accountName}
                       </span>
-                      <span className="block truncate text-caption normal-case tracking-normal text-charcoal-muted">
-                        {handle}
-                      </span>
+                      {/* Omitted rather than guessed. The aggregated rail
+                          mixes platforms, and this site knows Michael's
+                          Instagram handle, not his handle on every other
+                          one — printing the Instagram handle under a TikTok
+                          post would simply be a false statement. */}
+                      {handle && (
+                        <span className="block truncate text-caption normal-case tracking-normal text-charcoal-muted">
+                          {handle}
+                        </span>
+                      )}
                     </span>
-                    <PlatformIcon className="h-4 w-4 shrink-0 text-charcoal-muted" />
+                    {(() => {
+                      const Glyph = GLYPHS[post.platform ?? platform];
+                      return <Glyph className="h-4 w-4 shrink-0 text-charcoal-muted" />;
+                    })()}
                   </div>
 
                   <div className="relative aspect-square overflow-hidden bg-cream-dark">

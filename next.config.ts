@@ -9,13 +9,20 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Behold re-hosts every Instagram image on its own domain. The raw
-    // cdninstagram URLs in the same payload are signed and expire within
-    // hours, so they are deliberately not listed here — nothing should be
-    // able to render one by accident.
+    // Both aggregators re-host every image on their own domain. The raw
+    // cdninstagram and tiktokcdn URLs in the same payloads are signed and
+    // expire within hours, so they are deliberately not listed here —
+    // nothing should be able to render one by accident.
+    //
+    // The Juicer hosts must stay in step with REHOSTED_HOSTS in
+    // src/lib/juicerFeed.ts: that list decides which posts are kept, this
+    // one decides which images next/image will actually load, and a host in
+    // one but not the other produces a rail of broken frames.
     remotePatterns: [
       { protocol: "https", hostname: "behold.pictures" },
       { protocol: "https", hostname: "**.behold.pictures" },
+      { protocol: "https", hostname: "juicer.io" },
+      { protocol: "https", hostname: "**.juicer.io" },
     ],
   },
   async redirects() {

@@ -1,3 +1,4 @@
+import { toCaption } from "./caption";
 import { socialFeed as fallbackPosts, type SocialPost } from "@/data/social";
 
 /**
@@ -75,21 +76,6 @@ export interface LiveFeed {
   live: boolean;
 }
 
-/**
- * A caption is not a description of a picture, so it cannot be alt text. The
- * card shows this as its visible label instead, and the image is left
- * decorative — announcing a marketing caption as though it described the
- * photograph would be worse for a screen reader than silence.
- */
-function toTitle(post: BeholdPost): string {
-  const source = post.prunedCaption ?? post.caption ?? "";
-  const firstLine = source
-    .split("\n")
-    .map((l) => l.trim())
-    .find((l) => l.length > 0);
-  if (!firstLine) return "View on Instagram";
-  return firstLine.length > 70 ? `${firstLine.slice(0, 69).trimEnd()}…` : firstLine;
-}
 
 function toPost(post: BeholdPost): SocialPost | null {
   // Ordered by preference: the cards are 300px wide and render at up to 2x,
@@ -102,7 +88,9 @@ function toPost(post: BeholdPost): SocialPost | null {
   return {
     poster,
     href: post.permalink,
-    title: toTitle(post),
+    // "View on Instagram" rather than a blank line: a card with no caption
+    // still has to say what tapping it does.
+    title: toCaption(post.prunedCaption ?? post.caption, "View on Instagram"),
     alt: "",
   };
 }

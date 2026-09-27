@@ -1,21 +1,28 @@
 import { SocialFeedCarousel } from "./SocialFeedCarousel";
 import { socialAccount, socialProfiles, type SocialPost } from "@/data/social";
 import { getInstagramFeed } from "@/lib/instagramFeed";
+import { getJuicerFeed } from "@/lib/juicerFeed";
 import { linkedInPosts, linkedInProfile } from "@/data/linkedin";
 import { agent } from "@/lib/site";
 
 /**
- * The social band that closes every page: a live Instagram rail, then a
- * curated LinkedIn one directly under it.
+ * The social band that closes every page: a live Instagram rail, a curated
+ * LinkedIn one under it, and an aggregated rail under that for everything
+ * wired into Juicer.
  *
  * A server component purely so it can fetch — the carousels track their own
  * scroll position and have to run in the browser, and a client component
  * cannot await anything. Everything visual lives there; this decides what
  * each rail is given.
  *
- * One heading covers both rails. The second runs headerless on purpose: two
- * headings would read as two sections, and this is one band showing the same
- * person in two places.
+ * One heading covers every rail. The ones below the first run headerless on
+ * purpose: repeated headings would read as separate sections, and this is one
+ * band showing the same person in several places.
+ *
+ * Three rails is a long band, longest on a phone where each one is close to a
+ * full screen before the call to action. If it needs shortening, the change is
+ * here and in the carousel — one rail with a platform filter above it, rather
+ * than dropping a platform.
  *
  * The Instagram handle and profile link come from the feed rather than from
  * config, because the feed knows which account it is actually pulling from
@@ -23,7 +30,12 @@ import { agent } from "@/lib/site";
  * standing in, where naming the account they came from is correct again.
  */
 export async function SocialFeed() {
-  const { posts, handle, live } = await getInstagramFeed();
+  // Independent sources, so they are fetched together rather than in turn.
+  // Neither rejects: both loaders resolve to an empty or fallback feed.
+  const [{ posts, handle, live }, juicer] = await Promise.all([
+    getInstagramFeed(),
+    getJuicerFeed(),
+  ]);
 
   const profiles =
     live && handle
@@ -66,6 +78,22 @@ export async function SocialFeed() {
           handle={agent.title}
           profiles={profiles}
           platform="linkedin"
+          showHeader={false}
+        />
+      )}
+      {/* The aggregated rail. Its posts carry their own platform, so the
+          cards are marked individually and the rail's own setting is only
+          the fallback. No handle is passed: the feed is mixed, and this site
+          knows Michael's Instagram handle rather than his handle everywhere
+          else. Absent when Juicer returns nothing, which is the correct
+          outcome for a rail with no curated content to stand in for it. */}
+      {juicer.live && (
+        <SocialFeedCarousel
+          posts={juicer.posts}
+          accountName={socialAccount.name}
+          handle=""
+          profiles={profiles}
+          platform="tiktok"
           showHeader={false}
         />
       )}
