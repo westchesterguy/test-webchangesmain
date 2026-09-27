@@ -6,10 +6,10 @@ import { TestimonialCard } from "./TestimonialCard";
 import { testimonials } from "@/data/testimonials";
 
 export function Testimonials() {
-  const preview = testimonials.slice(0, 3);
+  const preview = testimonials.filter((t) => t.excerpt).slice(0, 3);
 
   return (
-    <Section className="bg-warm-white">
+    <Section className="border-t border-border bg-warm-white">
       <FadeIn>
         <Overline className="mb-4">Testimonials</Overline>
         <h2 className="font-display text-heading text-charcoal mb-14">
@@ -20,7 +20,7 @@ export function Testimonials() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {preview.map((t, i) => (
           <FadeIn key={i} direction="up">
-            <TestimonialCard testimonial={t} />
+            <TestimonialCard testimonial={t} useExcerpt />
           </FadeIn>
         ))}
       </div>

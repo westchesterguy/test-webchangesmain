@@ -18,16 +18,26 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-export function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+export function TestimonialCard({
+  testimonial,
+  useExcerpt = false,
+}: {
+  testimonial: Testimonial;
+  /** Homepage preview: show the pull-quote and drop the reviewer handle. */
+  useExcerpt?: boolean;
+}) {
+  const showExcerpt = useExcerpt && Boolean(testimonial.excerpt);
   return (
     <figure className="rounded-sm border border-border bg-warm-white p-7 flex flex-col h-full">
       {typeof testimonial.rating === "number" && <Stars rating={testimonial.rating} />}
       <blockquote className="text-body text-charcoal-light leading-relaxed flex-1">
         <span className="font-display text-3xl text-accent/40 leading-none mr-1 align-top">&ldquo;</span>
-        {testimonial.quote}
+        {showExcerpt ? testimonial.excerpt : testimonial.quote}
       </blockquote>
       <figcaption className="mt-6 pt-5 border-t border-border">
-        <p className="text-small font-medium text-charcoal">{testimonial.author}</p>
+        {!showExcerpt && (
+          <p className="text-small font-medium text-charcoal">{testimonial.author}</p>
+        )}
         <p className="text-caption text-charcoal-muted">{testimonial.location}</p>
       </figcaption>
     </figure>

@@ -5,6 +5,11 @@ export interface Testimonial {
   location: string;
   /** 1–5; omit if unknown. Drives AggregateRating when present across the set. */
   rating?: number;
+  /**
+   * Short pull-quote for the homepage. Must be lifted verbatim from `quote`
+   * (an ellipsis marks any omitted sentences); `quote` itself stays untouched.
+   */
+  excerpt?: string;
 }
 
 /**
@@ -27,12 +32,16 @@ export const testimonials: Testimonial[] = [
     quote:
       "How can I begin to tell the wondrous tale of Michael Winter? When we first spoke, Michael told me no one would work as hard for me as anyone could. He proved himself absolutely right. I grew up in Westchester, but have lived out of state for the past nearly 20 years. Most recently, we spent 6 years in Montana building our family. Now with three kids, my husband and I wanted to return to New York. We settled on Northern Westchester, and tried to find the balance between natural serenity and town access — while keeping schools, budget, proximity to work and family all in mind. We did this all remotely, from Montana. In a very challenging market, Michael went above and beyond to find us the perfect home. We spoke and texted often, he joked he’s like 7/11, “always open.” But he really was always available to answer a question or suggest a property to see. He is funny and delightful to work with. Michael spent days driving around Westchester and Connecticut — on his own, or with my friends and parents, sorting out neighborhoods, school districts and homes. He gracefully fielded many questions and comments from my mother. He clearly knows the market and players very well. I did not step foot in our new house until a few weeks after the closing. Even after closing, Michael’s dedication to our happiness and comfort in the new home did not end. He provided helpful support and suggestions all along the way. He was present on-site, when we could not be. I didn’t quite realize how far and beyond he went, until I started to mention it to other people. No one I’ve spoken to has had a realtor that worked so genuinely hard for their client. I hope I never move again — but if we do, 10/10 recommend Michael Winter.",
     author: "ZUSER20170212175423755",
+    excerpt:
+      "No one I’ve spoken to has had a realtor that worked so genuinely hard for their client.",
     location: "Relocating buyer, Northern Westchester",
   },
   {
     quote:
       "My wife and I worked with Michael on and off for over a year until we found our perfect home. He was highly recommended by my sister as he had helped find her new home. In the beginning, I’m not sure we knew exactly what we wanted, but Michael helped us figure it out along the way. We must have seen over 50 homes with him and always appreciated his presence and expertise. We lost several bids in the highly competitive housing market, but Michael helped us navigate every step of the process until we finally got the house we wanted at under asking. He was always very communicative, both through the shopping, bidding, and buying process, keeping us updated on the status and next steps. Above everything else, Michael was driven to help us find the home that fit us. I think some other agents would have dropped us or pushed us towards homes we weren’t completely happy with because of the competitive market and the difficulty we were having. There were times when a house would only be listed for 2-3 days, but Michael always found a way to get us into a showing. That might have meant dragging him out on a Thursday night with 2 hours notice, but he always made time. Michael was always patient and supportive and never pressured us. In one case we pulled up to a house and Michael told us not to bother getting out of the car. It turned out that the backyard overlooked a machinery yard, something we would have hated. That kind of honesty and understanding made us feel safe in his hands and convinced us that he was the right agent for us.",
     author: "ZUSER20150331112518160",
+    excerpt:
+      "In one case we pulled up to a house and Michael told us not to bother getting out of the car. It turned out that the backyard overlooked a machinery yard, something we would have hated. That kind of honesty and understanding made us feel safe in his hands",
     location: "Buyer",
   },
   {
@@ -57,6 +66,8 @@ export const testimonials: Testimonial[] = [
     quote:
       "Michael Is a Superb real estate broker. He is dependable, reliable, resourceful, funny, hard working, extremely capable, honest and kind. He sold my house in a difficult market. He had multiple open houses and he worked tirelessly until the sale was complete. He was extremely helpful and gave me great advice. I recommend Michael Winter wholeheartedly. He is a terrific broker and he is a man of his word.",
     author: "JEALAN2",
+    excerpt:
+      "He sold my house in a difficult market. He had multiple open houses and he worked tirelessly until the sale was complete. … He is a terrific broker and he is a man of his word.",
     location: "Seller",
   },
   {
