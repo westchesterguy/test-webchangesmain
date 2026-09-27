@@ -80,12 +80,25 @@ export interface SocialPost {
   authorHandle?: string;
   /** The author's own picture, already re-hosted by the aggregator. */
   authorAvatar?: string;
+  /**
+   * True when the card's frame is a cover for something that plays.
+   *
+   * A Reel and a TikTok both arrive as a still, and a still with nothing
+   * marking it reads as a photograph — the card should not misrepresent
+   * what tapping it does. Left off the town-film stills below, which are
+   * not posts and go nowhere.
+   */
+  video?: boolean;
 }
 
 export const socialFeed: SocialPost[] = [
   {
     poster: "/images/reels/reel-ask-michael.jpg",
     href: "https://www.instagram.com/reel/Danl7dZOqrX/",
+    // The only one of these four thumbnails captured without Instagram's own
+    // play button already on it, so it is the only one that needs ours. The
+    // flag marks a frame that needs the badge, not a post that is a video.
+    video: true,
     title: "Ask Michael",
     alt: "Ask Michael reel: Michael Winter on a Times Square billboard",
   },

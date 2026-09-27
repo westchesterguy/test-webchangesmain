@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MarkBadge } from "./Lockup";
-import { ChevronIcon, InstagramIcon, LinkedInIcon, TikTokIcon } from "./SocialIcons";
+import { ChevronIcon, InstagramIcon, LinkedInIcon, PlayIcon, TikTokIcon } from "./SocialIcons";
 import { socialAccount, type SocialPost, type SocialProfile } from "@/data/social";
 
 /**
@@ -227,6 +227,18 @@ export function SocialFeedCarousel({
                       sizes="300px"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                     />
+                    {/* Small and in the corner rather than centred over the
+                        picture: it has to say the frame plays, not compete
+                        with the photograph it sits on. Decorative — the
+                        caption already tells a screen reader what this is. */}
+                    {post.video && (
+                      <span
+                        aria-hidden
+                        className="pointer-events-none absolute bottom-3 left-3 flex h-7 w-7 items-center justify-center rounded-full bg-navy/55 backdrop-blur-[2px]"
+                      >
+                        <PlayIcon className="h-3 w-3 translate-x-[1px] text-white" />
+                      </span>
+                    )}
                   </div>
 
                   <div className="flex items-center justify-between gap-3 px-3 py-2.5">

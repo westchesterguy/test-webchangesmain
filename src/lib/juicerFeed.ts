@@ -141,6 +141,7 @@ interface JuicerItem {
   poster_display_name?: string;
   poster_image?: string;
   source?: { source?: string };
+  media?: { type?: string }[];
 }
 
 interface JuicerResponse {
@@ -185,6 +186,9 @@ function toPost(item: JuicerItem): SocialPost | null {
     // the lifetime of is left off, and the card falls back to the brand mark.
     authorAvatar:
       item.poster_image && isRehosted(item.poster_image) ? item.poster_image : undefined,
+    // Read from the post, not assumed from the platform: this feed takes
+    // photo platforms too, and a play badge on a photograph is a lie.
+    video: (item.media ?? []).some((m) => (m.type ?? "").toLowerCase() === "video"),
   };
 }
 

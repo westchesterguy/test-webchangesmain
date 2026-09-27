@@ -36,6 +36,14 @@ export function TikTokIcon({ className = "" }: IconProps) {
   );
 }
 
+export function PlayIcon({ className = "" }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className={className}>
+      <path d="M8 5.2v13.6a.6.6 0 0 0 .92.5l10.7-6.8a.6.6 0 0 0 0-1l-10.7-6.8a.6.6 0 0 0-.92.5z" />
+    </svg>
+  );
+}
+
 export function ChevronIcon({ className = "" }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden className={className}>

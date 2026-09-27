@@ -92,6 +92,8 @@ function toPost(post: BeholdPost): SocialPost | null {
     // since the rail is Reels, what it does is play something.
     title: toCaption(post.prunedCaption ?? post.caption, "Watch on Instagram"),
     alt: "",
+    // isReel already gated this rail, so anything reaching here plays.
+    video: true,
   };
 }
 
