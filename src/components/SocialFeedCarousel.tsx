@@ -89,13 +89,12 @@ export function SocialFeedCarousel({
   };
 
   return (
-    <div
-      className={
-        showHeader
-          ? "pt-14 md:pt-20"
-          : "pb-14 md:pb-20"
-      }
-    >
+    /* Top padding only, and only on the rail that carries the heading. The
+       band's closing space belongs to the section in SocialFeed, not to a
+       rail: when this was a bottom pad on every headerless rail, the second
+       rail closed the band under itself and the third sat a full band-gap
+       below the second while the first two nearly touched. */
+    <div className={showHeader ? "pt-14 md:pt-20" : undefined}>
       {showHeader && (
       <div className="mx-auto max-w-6xl px-6 md:px-10">
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-5">
@@ -163,7 +162,8 @@ export function SocialFeedCarousel({
       </div>
       )}
 
-      <div className={showHeader ? "relative mt-8 md:mt-10" : "relative mt-4 md:mt-5"}>
+      {/* One gap between any two rails, a larger one under the heading. */}
+      <div className={showHeader ? "relative mt-8 md:mt-10" : "relative mt-5 md:mt-6"}>
         <ul
           ref={rail}
           onScroll={sync}

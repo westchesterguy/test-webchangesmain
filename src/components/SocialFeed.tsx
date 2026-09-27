@@ -59,7 +59,7 @@ export async function SocialFeed() {
   return (
     <section
       aria-labelledby="social-feed-heading"
-      className="border-t border-border bg-surface"
+      className="border-t border-border bg-surface pb-14 md:pb-20"
     >
       <SocialFeedCarousel
         posts={posts}
