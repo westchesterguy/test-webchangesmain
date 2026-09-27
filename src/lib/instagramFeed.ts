@@ -98,20 +98,30 @@ function toPost(post: BeholdPost): SocialPost | null {
 }
 
 /**
- * Whether a post is a Reel.
+ * Picking the Reels out of a feed.
  *
- * Instagram's API has no Reel type. A Reel is reported as VIDEO, the same as
- * any other video post, so that is what this can test — which is close
- * enough in practice, because Instagram folded feed videos into Reels and a
- * business account posting video today is posting Reels. Stills and carousels
- * are what this is actually excluding.
+ * Behold reports a Reel as REELS, distinct from VIDEO, so where the payload
+ * uses that label a plain VIDEO is a video that is not a Reel and belongs
+ * out of this rail. Instagram's own Graph API does not draw that line — it
+ * reports every Reel as VIDEO — so a payload can arrive either way, and a
+ * rule fixed on one spelling is wrong against the other.
  *
- * Matched loosely because the value is somebody else's string: an API that
- * starts sending "video" or "REELS" should narrow the rail, not empty it.
+ * Hence: if anything in the batch is labelled a Reel, trust the label and
+ * take only those. If nothing is, the feed is not drawing the distinction
+ * and VIDEO is the closest true answer, which is a fair proxy because
+ * Instagram folded feed videos into Reels and a business account posting
+ * video today is posting Reels.
+ *
+ * Either way it is stills and carousels being excluded, and either way the
+ * cheaper fix is upstream: Behold's own feed settings can limit the post
+ * types at source, which also decides whether Reels kept off the main grid
+ * are in the payload at all. Nothing here can recover a post Behold was
+ * never told to send.
  */
-function isReel(post: BeholdPost): boolean {
-  const type = (post.mediaType ?? "").trim().toUpperCase();
-  return type === "VIDEO" || type === "REEL" || type === "REELS";
+function pickReels(posts: BeholdPost[]): BeholdPost[] {
+  const typeOf = (p: BeholdPost) => (p.mediaType ?? "").trim().toUpperCase();
+  const labelled = posts.filter((p) => typeOf(p) === "REEL" || typeOf(p) === "REELS");
+  return labelled.length > 0 ? labelled : posts.filter((p) => typeOf(p) === "VIDEO");
 }
 
 export async function getInstagramFeed(): Promise<LiveFeed> {
@@ -123,8 +133,7 @@ export async function getInstagramFeed(): Promise<LiveFeed> {
 
     const data = (await res.json()) as BeholdFeed;
     const all = data.posts ?? [];
-    const posts = all
-      .filter(isReel)
+    const posts = pickReels(all)
       .map(toPost)
       .filter((p): p is SocialPost => p !== null);
 
@@ -137,7 +146,8 @@ export async function getInstagramFeed(): Promise<LiveFeed> {
         console.warn(
           `[behold] ${all.length} posts came back and none were Reels. ` +
             `Media types seen: ${[...new Set(all.map((p) => p.mediaType ?? "(none)"))].join(", ")}. ` +
-            `If that list looks wrong, check isReel in src/lib/instagramFeed.ts.`,
+            `Behold's feed settings choose which post types it sends; ` +
+              `check those first, then pickReels in src/lib/instagramFeed.ts.`,
         );
       }
       return fallback;
