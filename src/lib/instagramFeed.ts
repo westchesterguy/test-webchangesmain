@@ -2,7 +2,7 @@ import { toCaption } from "./caption";
 import { socialFeed as fallbackPosts, type SocialPost } from "@/data/social";
 
 /**
- * The live Instagram feed, via Behold.
+ * The live Instagram feed, via Behold. Reels only: see isReel below.
  *
  * This is the hub's own Behold feed, id 2nN9kAtioTuEfwKxEbVc. The horse site
  * runs a different feed ("horsefeed") on a different account, so a change here
@@ -88,11 +88,28 @@ function toPost(post: BeholdPost): SocialPost | null {
   return {
     poster,
     href: post.permalink,
-    // "View on Instagram" rather than a blank line: a card with no caption
-    // still has to say what tapping it does.
-    title: toCaption(post.prunedCaption ?? post.caption, "View on Instagram"),
+    // A card with no caption still has to say what tapping it does, and
+    // since the rail is Reels, what it does is play something.
+    title: toCaption(post.prunedCaption ?? post.caption, "Watch on Instagram"),
     alt: "",
   };
+}
+
+/**
+ * Whether a post is a Reel.
+ *
+ * Instagram's API has no Reel type. A Reel is reported as VIDEO, the same as
+ * any other video post, so that is what this can test — which is close
+ * enough in practice, because Instagram folded feed videos into Reels and a
+ * business account posting video today is posting Reels. Stills and carousels
+ * are what this is actually excluding.
+ *
+ * Matched loosely because the value is somebody else's string: an API that
+ * starts sending "video" or "REELS" should narrow the rail, not empty it.
+ */
+function isReel(post: BeholdPost): boolean {
+  const type = (post.mediaType ?? "").trim().toUpperCase();
+  return type === "VIDEO" || type === "REEL" || type === "REELS";
 }
 
 export async function getInstagramFeed(): Promise<LiveFeed> {
@@ -103,12 +120,26 @@ export async function getInstagramFeed(): Promise<LiveFeed> {
     if (!res.ok) return fallback;
 
     const data = (await res.json()) as BeholdFeed;
-    const posts = (data.posts ?? [])
+    const all = data.posts ?? [];
+    const posts = all
+      .filter(isReel)
       .map(toPost)
       .filter((p): p is SocialPost => p !== null);
 
     // An empty or unrecognisable payload is a failure, not an empty feed.
-    if (posts.length === 0) return fallback;
+    // A feed that holds posts but no Reels lands here too, and falls back to
+    // the committed reels, which are also Reels — so the rail keeps its
+    // subject either way rather than quietly becoming a rail of stills.
+    if (posts.length === 0) {
+      if (process.env.NODE_ENV !== "production" && all.length > 0) {
+        console.warn(
+          `[behold] ${all.length} posts came back and none were Reels. ` +
+            `Media types seen: ${[...new Set(all.map((p) => p.mediaType ?? "(none)"))].join(", ")}. ` +
+            `If that list looks wrong, check isReel in src/lib/instagramFeed.ts.`,
+        );
+      }
+      return fallback;
+    }
 
     return {
       posts,
