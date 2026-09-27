@@ -81,12 +81,13 @@ export async function SocialFeed() {
           showHeader={false}
         />
       )}
-      {/* The aggregated rail. Its posts carry their own platform, so the
-          cards are marked individually and the rail's own setting is only
-          the fallback. No handle is passed: the feed is mixed, and this site
-          knows Michael's Instagram handle rather than his handle everywhere
-          else. Absent when Juicer returns nothing, which is the correct
-          outcome for a rail with no curated content to stand in for it. */}
+      {/* The aggregated rail. Its posts carry their own platform, author
+          and handle, so the cards are labelled individually and everything
+          passed here is only the fallback — which is why the handle is
+          empty rather than guessed. This site knows Michael's Instagram
+          handle; his handle on any other platform is a fact that arrives
+          with the post. Absent when Juicer returns nothing, which is the
+          correct outcome for a rail with no curated content to stand in. */}
       {juicer.live && (
         <SocialFeedCarousel
           posts={juicer.posts}

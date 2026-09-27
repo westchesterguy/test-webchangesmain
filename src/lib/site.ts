@@ -72,6 +72,9 @@ export const agent = {
     twitter: "https://www.twitter.com/BFDNYHomes",
     // Confirmed 2026-09-04.
     linkedin: "https://www.linkedin.com/in/michael-winter-3203594/",
+    // Confirmed 2026-09-27: this is the account his own Juicer feed pulls,
+    // so the URL comes from the posts themselves rather than from memory.
+    tiktok: "https://www.tiktok.com/@michael.winter082",
     // Single Sotheby's agent profile — WPSIR and JBF SIR share one platform, so
     // his William Pitt and Julia B. Fee profiles are the same page.
     sothebysProfile: "https://www.williampitt.com/agents/michaelwinter/",

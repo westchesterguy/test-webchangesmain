@@ -171,6 +171,12 @@ export function SocialFeedCarousel({
         >
           {posts.map((post) => {
             const Tag = post.href ? "a" : "div";
+            // The aggregated rail's posts name their own author, handle and
+            // picture. The curated rails' do not, and fall back to the
+            // rail's — one account each, so the rail already knows.
+            const name = post.authorName ?? accountName;
+            const sub = post.authorHandle ?? handle;
+            const face = post.authorAvatar ?? avatar;
             return (
               <li key={post.poster} className="w-[300px] shrink-0">
                 <Tag
@@ -180,9 +186,9 @@ export function SocialFeedCarousel({
                   className="group block h-full border border-border bg-warm-white transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
                 >
                   <div className="flex items-center gap-3 p-3">
-                    {avatar ? (
+                    {face ? (
                       <Image
-                        src={avatar}
+                        src={face}
                         alt=""
                         aria-hidden
                         width={144}
@@ -194,16 +200,16 @@ export function SocialFeedCarousel({
                     )}
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-caption font-semibold normal-case tracking-normal text-charcoal">
-                        {accountName}
+                        {name}
                       </span>
                       {/* Omitted rather than guessed. The aggregated rail
                           mixes platforms, and this site knows Michael's
                           Instagram handle, not his handle on every other
                           one — printing the Instagram handle under a TikTok
                           post would simply be a false statement. */}
-                      {handle && (
+                      {sub && (
                         <span className="block truncate text-caption normal-case tracking-normal text-charcoal-muted">
-                          {handle}
+                          {sub}
                         </span>
                       )}
                     </span>

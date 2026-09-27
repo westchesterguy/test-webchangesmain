@@ -27,6 +27,7 @@ export interface SocialProfile {
 export const socialProfiles: SocialProfile[] = [
   { label: "Instagram", href: agent.social.instagram },
   { label: "LinkedIn", href: agent.social.linkedin },
+  { label: "TikTok", href: agent.social.tiktok },
 ];
 
 export interface HeadingPart {
@@ -66,6 +67,19 @@ export interface SocialPost {
    * and an Instagram post sit side by side under the same mark.
    */
   platform?: "instagram" | "linkedin" | "tiktok";
+  /**
+   * Who posted it, when the post itself says.
+   *
+   * The curated rails are one account each, so their cards take the name
+   * from the rail. An aggregated rail carries whatever the platform reports
+   * per post, which is both more accurate and the only way a card can show
+   * the right handle: this site knows the Instagram handle, and the TikTok
+   * one is a fact that arrives with the post rather than one to guess at.
+   */
+  authorName?: string;
+  authorHandle?: string;
+  /** The author's own picture, already re-hosted by the aggregator. */
+  authorAvatar?: string;
 }
 
 export const socialFeed: SocialPost[] = [
