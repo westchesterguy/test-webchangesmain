@@ -92,7 +92,7 @@ export default function TestimonialsPage() {
       <Header />
       <main id="main-content">
         {/* Hero */}
-        <Section padding="pt-36 md:pt-40 pb-16 md:pb-20" className="bg-cream">
+        <Section padding="pt-32 md:pt-36 pb-10 md:pb-14" className="bg-cream">
           <Overline className="mb-4">Testimonials</Overline>
           <h1 className="font-display text-display text-charcoal max-w-3xl">
             What clients say
@@ -105,7 +105,7 @@ export default function TestimonialsPage() {
         </Section>
 
         {/* Testimonials grid */}
-        <Section padding="py-20 md:py-28" className="bg-warm-white">
+        <Section padding="py-14 md:py-20" className="bg-warm-white">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
               <FadeIn key={i} delay={i * 60}>
@@ -116,7 +116,7 @@ export default function TestimonialsPage() {
         </Section>
 
         {/* CTA */}
-        <Section padding="py-20 md:py-28" className="bg-navy">
+        <Section padding="py-14 md:py-20" className="bg-navy">
           <div className="max-w-2xl">
             <Overline tone="light" className="mb-3">
               Let&apos;s Talk

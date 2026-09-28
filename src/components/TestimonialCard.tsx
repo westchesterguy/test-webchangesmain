@@ -18,22 +18,36 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
+/** Most of these reviews are published under a machine-generated Zillow handle
+   (ZUSER20170212175423755, BURYESA). Printing that on the page reads as noise,
+   so only a name the reviewer actually signed is shown; everyone else is
+   credited by the role/location line alone, which is attribution a reader can
+   use. The handle stays in the data untouched — Review schema publishes it as
+   the author, exactly as the source does. */
+function signedName(author: string): string | null {
+  const signed = /[a-z]/.test(author) && author.includes(" ");
+  return signed ? author : null;
+}
+
 export function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+  const name = signedName(testimonial.author);
+
   return (
     <figure className="rounded-sm border border-border bg-warm-white p-7 flex flex-col h-full">
       {typeof testimonial.rating === "number" && <Stars rating={testimonial.rating} />}
-      {/* Clamped, because these are real reviews and some of them run to 1,700
-          characters. Unclamped, a three-up grid stretches every card to the
-          tallest quote: measured at 1,631px, taller than the viewport, with
-          the shortest review sitting in 60% empty space. Nine lines holds the
-          opening of any of them and the full text is one link away. */}
-      <blockquote className="text-body text-charcoal-light leading-relaxed flex-1 line-clamp-[9]">
+      <blockquote className="text-body text-charcoal-light leading-relaxed flex-1">
         <span className="font-display text-3xl text-accent/40 leading-none mr-1 align-top">&ldquo;</span>
         {testimonial.quote}
       </blockquote>
       <figcaption className="mt-6 pt-5 border-t border-border">
-        <p className="text-small font-medium text-charcoal">{testimonial.author}</p>
-        <p className="text-caption text-charcoal-muted">{testimonial.location}</p>
+        {name ? (
+          <>
+            <p className="text-small font-medium text-charcoal">{name}</p>
+            <p className="text-caption text-charcoal-muted">{testimonial.location}</p>
+          </>
+        ) : (
+          <p className="text-small font-medium text-charcoal">{testimonial.location}</p>
+        )}
       </figcaption>
     </figure>
   );

@@ -5,8 +5,15 @@ import { Overline } from "./Overline";
 import { TestimonialCard } from "./TestimonialCard";
 import { testimonials } from "@/data/testimonials";
 
+/** Homepage preview: the three shortest reviews, not the first three. The grid
+   is three columns with no line clamp, so quote length is what decides card
+   height — leading with the shortest keeps the row even instead of hanging one
+   card several times deeper than its neighbours. The full set, longest reviews
+   included, is one click away on /testimonials. */
 export function Testimonials() {
-  const preview = testimonials.slice(0, 3);
+  const preview = [...testimonials]
+    .sort((a, b) => a.quote.length - b.quote.length)
+    .slice(0, 3);
 
   return (
     <Section className="bg-warm-white">
@@ -28,7 +35,7 @@ export function Testimonials() {
       <div className="mt-10">
         <Link
           href="/testimonials"
-          className="inline-flex items-center gap-2 text-small uppercase tracking-[0.08em] text-accent-dark hover:text-charcoal font-medium transition-colors group"
+          className="group inline-flex items-center gap-2 rounded-sm bg-navy px-7 py-3 text-small font-medium uppercase tracking-[0.08em] text-white transition-colors hover:bg-navy-light"
         >
           Read more testimonials
           <svg
