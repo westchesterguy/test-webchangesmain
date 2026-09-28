@@ -22,7 +22,12 @@ export function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <figure className="rounded-sm border border-border bg-warm-white p-7 flex flex-col h-full">
       {typeof testimonial.rating === "number" && <Stars rating={testimonial.rating} />}
-      <blockquote className="text-body text-charcoal-light leading-relaxed flex-1">
+      {/* Clamped, because these are real reviews and some of them run to 1,700
+          characters. Unclamped, a three-up grid stretches every card to the
+          tallest quote: measured at 1,631px, taller than the viewport, with
+          the shortest review sitting in 60% empty space. Nine lines holds the
+          opening of any of them and the full text is one link away. */}
+      <blockquote className="text-body text-charcoal-light leading-relaxed flex-1 line-clamp-[9]">
         <span className="font-display text-3xl text-accent/40 leading-none mr-1 align-top">&ldquo;</span>
         {testimonial.quote}
       </blockquote>
