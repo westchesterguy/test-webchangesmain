@@ -26,21 +26,18 @@ export const social = {
 /**
  * Where the switcher's other tab points.
  *
- * SANDBOX DEFAULT — NOT THE PRODUCTION URL. This repo is the sandbox copy of
- * michaelwinterrealestate, so the horse site it points at is the sandbox copy
- * of the horse site, on its branch preview. Keeping the pair pointed at each
- * other means the switcher stays inside the sandbox instead of dropping you
- * onto the live site mid-test. When this change is ported to the live repo,
- * this constant goes back to "https://westchesterhorseproperties.com".
+ * This is the production domain. It used to default to the horse site's
+ * branch preview so the sandbox pair pointed at each other, but a preview URL
+ * is generated per branch and per deployment: left in place it goes stale the
+ * moment the branch is renamed or the preview expires, and it would put a
+ * vercel.app address in front of a client on the live site.
  *
- * NEXT_PUBLIC_HORSE_URL overrides it per Vercel project, so a deployment can
- * be pointed somewhere else without a code change.
+ * NEXT_PUBLIC_HORSE_URL still overrides it per Vercel project, which is how a
+ * preview deployment gets pointed back at a matching preview of the horse
+ * site without a code change.
  */
-const SANDBOX_HORSE_URL =
-  "https://test-webchanges-git-claude-vibrant-n-0bc257-the-westchester-guy.vercel.app";
-
 export const HORSE_URL =
-  process.env.NEXT_PUBLIC_HORSE_URL ?? SANDBOX_HORSE_URL;
+  process.env.NEXT_PUBLIC_HORSE_URL ?? "https://westchesterhorseproperties.com";
 
 export interface Brand {
   label: string;
