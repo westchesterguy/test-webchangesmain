@@ -49,8 +49,20 @@ import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
  * below 360px is for the narrowest phones, where the label costs enough room
  * to start eating the names.
  */
+/**
+ * The domain, in the hero's serif.
+ *
+ * The leading is 1.35 rather than none because these names carry the
+ * descenders of g, p and y, and the spans truncate — which means
+ * overflow:hidden. At line-height 1 the line box is exactly the font
+ * size, so Playfair's descenders fall outside it and are sliced off flat:
+ * measured at 1440px, 8.4px of a 34px glyph box, a third of it gone. The
+ * band does not grow, because the link centres the line box inside a row
+ * of fixed height and the rule underneath is pinned to the link, not the
+ * text.
+ */
 const SITE_NAME =
-  "min-w-0 font-display font-semibold lowercase leading-none tracking-[-0.015em] text-[0.53rem] min-[360px]:text-[0.62rem] min-[414px]:text-[0.7rem] sm:text-[0.85rem] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.6rem]";
+  "min-w-0 font-display font-semibold lowercase leading-[1.35] tracking-[-0.015em] text-[0.53rem] min-[360px]:text-[0.62rem] min-[414px]:text-[0.7rem] sm:text-[0.85rem] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.6rem]";
 
 export function Header() {
   const pathname = usePathname();
