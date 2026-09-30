@@ -6,8 +6,17 @@
  * TODO before launch: verify the 2023-era Facebook/X profiles are still live.
  */
 
-/** Canonical origin — the hub domain. */
-export const SITE_URL = "https://michaelwinterrealestate.com";
+/**
+ * Canonical origin — the hub domain.
+ *
+ * westchesterguy.com, which is where this site is deployed. It read
+ * michaelwinterrealestate.com until 2026-09-30, from the era when that was
+ * the address; the two are the same site, and this constant feeds the
+ * canonical tags, the sitemap, the Open Graph URLs and the JSON-LD, so
+ * leaving it pointed at the old name told Google the real version of every
+ * page lived somewhere else.
+ */
+export const SITE_URL = "https://westchesterguy.com";
 
 export interface Office {
   brokerage: string;
@@ -37,7 +46,7 @@ export const agent = {
 
   // Confirmed 2026-09-04: no third-party booking tool; scheduling CTAs use the
   // contact form.
-  scheduling: "https://michaelwinterrealestate.com/contact",
+  scheduling: "https://westchesterguy.com/contact",
 
   // Real headshot (provided 2026-07-11, 1212x1600).
   headshot: "/michael-winter-headshot.jpg",

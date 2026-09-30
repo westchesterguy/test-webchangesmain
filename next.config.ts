@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
         // cached permanent redirect would make that painful to undo.
         source: "/:path*",
         has: [{ type: "host", value: "bedfordnyhomes.com" }],
-        destination: "https://michaelwinterrealestate.com/communities/bedford",
+        destination: "https://westchesterguy.com/communities/bedford",
         permanent: false,
       },
     ];

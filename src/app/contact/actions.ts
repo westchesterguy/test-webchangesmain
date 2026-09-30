@@ -6,7 +6,18 @@ import { agent } from "@/lib/site";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// TODO: this sender domain must be verified in Resend before email will send.
+/**
+ * TODO before launch: the sender domain must be verified in Resend, and this
+ * address probably has to change with it.
+ *
+ * Deliberately still michaelwinterrealestate.com while the rest of the site
+ * moved to westchesterguy.com on 2026-09-30. A sending domain is not a
+ * branding string: mail only leaves if that exact domain holds verified SPF
+ * and DKIM records in Resend. Switching this to contact@westchesterguy.com
+ * before those records exist would silently stop every contact form and
+ * valuation request from arriving, which is the most expensive thing on this
+ * site to break quietly. Change it once westchesterguy.com is verified.
+ */
 const FROM = "Michael Winter <contact@michaelwinterrealestate.com>";
 
 export type FormState = {
@@ -49,7 +60,7 @@ export async function submitContactForm(
       to: agent.leadEmail,
       replyTo: email,
       subject: `[Website] ${subject} — ${name}`,
-      text: `New inquiry from michaelwinterrealestate.com\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || "(not provided)"}\nSubject: ${subject}\n\n${message}\n\n— SMS consent record —\nConsent given: ${consentGiven ? "Yes" : "No"}\nConsent text shown: ${consentText}\nSubmitted at: ${submittedAt}`,
+      text: `New inquiry from westchesterguy.com\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || "(not provided)"}\nSubject: ${subject}\n\n${message}\n\n— SMS consent record —\nConsent given: ${consentGiven ? "Yes" : "No"}\nConsent text shown: ${consentText}\nSubmitted at: ${submittedAt}`,
     });
     return { success: true, error: null };
   } catch {
@@ -90,7 +101,7 @@ export async function submitValuationRequest(
       to: agent.leadEmail,
       replyTo: email,
       subject: `[Home Valuation Request] ${address} — ${name}`,
-      text: `New home valuation request from michaelwinterrealestate.com\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || "(not provided)"}\nProperty address: ${address}\nSelling timeframe: ${timeframe}\n\nNotes:\n${notes || "(none)"}\n\n— SMS consent record —\nConsent given: ${consentGiven ? "Yes" : "No"}\nConsent text shown: ${consentText}\nSubmitted at: ${submittedAt}`,
+      text: `New home valuation request from westchesterguy.com\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || "(not provided)"}\nProperty address: ${address}\nSelling timeframe: ${timeframe}\n\nNotes:\n${notes || "(none)"}\n\n— SMS consent record —\nConsent given: ${consentGiven ? "Yes" : "No"}\nConsent text shown: ${consentText}\nSubmitted at: ${submittedAt}`,
     });
     return { success: true, error: null };
   } catch {
