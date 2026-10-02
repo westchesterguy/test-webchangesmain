@@ -59,8 +59,9 @@ export interface Brand {
  * to "westchesterhorseproperties.com" tells a visitor these are two addresses
  * under one roof, which is the whole point of the switcher. Mixing a brand
  * name with a URL would read as a mistake, so they change together or not at
- * all. `short` drops the suffix below sm, where two full domains do not fit
- * beside the mark and the button.
+ * all. `short` drops the suffix below lg, where two full domains do not fit
+ * in the half row each name gets beside the centred button. The masthead
+ * sets both in capitals with CSS, so the strings stay lowercase here.
  */
 export const brands: Brand[] = [
   {

@@ -18,14 +18,16 @@ import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
  * only thing that says which you are at, and it appears only on the site you
  * are on. The current site always takes the left, whichever site this is.
  *
- * All three zones are present at every width, phones included. From lg the
- * grid is 1fr auto 1fr, so the side columns are equal and Ask Michael sits on
- * the window's centre line however much longer one domain is than the other.
- * Below lg the columns size to their content and the button sits between the
- * two rather than dead centre: equal halves give the left exactly half the
- * row, the mark is in that half too, and the longer domain is two-thirds
- * longer than the name opposite — forcing the split there either clipped a
- * name or drove the type down to eight pixels.
+ * All three zones are present at every width, phones included, and the grid
+ * is minmax(0,1fr) auto minmax(0,1fr) at every width: the side columns are
+ * always equal, so Ask Michael sits on the window's centre line however much
+ * longer one name is than the other. The zero minimum is what holds it there
+ * when room runs short; with a plain 1fr the longer side widens its column
+ * and pushes the button off centre. Below lg the columns used to size to
+ * their content, which left the button visibly left of centre on phones.
+ * The cost is that the longer name gets only half the row less the button,
+ * so the type steps below are sized to that, and the full domains wait for
+ * lg (see `short` in the brand data).
  *
  * Both names carry min-w-0 and truncate their own span. Without it the links
  * refuse to shrink below their text and the two names run straight into each
@@ -43,11 +45,14 @@ import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
  */
 /**
  * Typography shared by both site names and by the "Visit" that introduces
- * the second, so "same face, same size" cannot drift between them. The steps
- * are set by the tightest fit: at each width the two names, the label, the
- * mark and the button have to sit on one row without meeting. The extra step
- * below 360px is for the narrowest phones, where the label costs enough room
- * to start eating the names.
+ * the second, so "same face, same size" cannot drift between them. Capitals,
+ * by Michael's direction. The steps are set by the tightest fit: at each
+ * step's narrowest width, "Visit", the longer name and the arrow have to sit
+ * in half the row beside the centred button with 6px to spare. Measured with
+ * Playfair loaded, the binding widths are 320, 360, 390, 414, 1024 and 1280,
+ * each within half a pixel of its limit, so re-measure before raising one.
+ * lg is smaller than md because lg is where the full domains replace the
+ * short names.
  */
 /**
  * The domain, in the hero's serif.
@@ -62,7 +67,7 @@ import { ASK_MICHAEL_URL, CURRENT_BRAND, brands, navLinks } from "@/data/nav";
  * text.
  */
 const SITE_NAME =
-  "min-w-0 font-display font-semibold lowercase leading-[1.35] tracking-[-0.015em] text-[0.53rem] min-[360px]:text-[0.62rem] min-[414px]:text-[0.7rem] sm:text-[0.85rem] md:text-[1rem] lg:text-[1.2rem] xl:text-[1.6rem]";
+  "min-w-0 font-display font-semibold uppercase leading-[1.35] tracking-[0.02em] text-[0.42rem] min-[360px]:text-[0.5rem] min-[390px]:text-[0.56rem] sm:text-[0.85rem] md:text-[1rem] lg:text-[0.95rem] xl:text-[1.3rem]";
 
 export function Header() {
   const pathname = usePathname();
@@ -118,11 +123,9 @@ export function Header() {
     >
       {/* Tier one — the shared band. */}
       <div className="bg-masthead">
-        {/* 1fr auto 1fr keeps Ask Michael on the window's centre line however
-            the two domains differ in length. Below sm the middle cell is
-            empty — the button lives in tier two there — and the two side
-            columns simply split the row. */}
-        <div className="grid h-16 grid-cols-[minmax(0,auto)_auto_minmax(0,1fr)] items-center gap-1.5 px-3 min-[360px]:px-4 min-[414px]:gap-3 md:h-20 md:gap-5 md:px-6 lg:grid-cols-[1fr_auto_1fr] lg:px-8">
+        {/* Equal side columns keep Ask Michael on the window's centre line
+            at every width, however the two names differ in length. */}
+        <div className="grid h-16 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-1 px-3 min-[360px]:px-4 md:h-20 md:gap-5 md:px-6 lg:px-8">
           <div className="flex h-full min-w-0 items-center gap-1.5 min-[414px]:gap-3 md:gap-5">
             <Link
               href="/"
@@ -133,30 +136,26 @@ export function Header() {
             </Link>
 
             {/* Where you are. The rule sits on the band's bottom edge. Set in
-                the hero's serif, lowercase, because that face is the brand's
-                voice and an address is read, not shouted. */}
+                the hero's serif, because that face is the brand's voice. */}
             <Link
               href="/"
               aria-current="true"
               className={`${SITE_NAME} relative flex h-full items-center text-white after:absolute after:inset-x-0 after:bottom-0 after:h-[3px] after:bg-white`}
             >
-              <span className="block truncate whitespace-nowrap sm:hidden">{here.short}</span>
-              <span className="hidden truncate whitespace-nowrap sm:block">{here.label}</span>
+              <span className="block truncate whitespace-nowrap lg:hidden">{here.short}</span>
+              <span className="hidden truncate whitespace-nowrap lg:block">{here.label}</span>
             </Link>
           </div>
 
-          {/* Ask Michael sits in the centre cell from lg up. Below that it
-              moves to tier two: the centre column costs the row a third of
-              its width, and "westchesterhorseproperties.com" does not
-              survive that on a tablet. Both copies raise the Tawk widget and
-              fall back to their href when the embed has not loaded or was
-              blocked. */}
+          {/* Ask Michael, in the centre cell at every width. It raises the
+              Tawk widget and falls back to its href when the embed has not
+              loaded or was blocked. */}
           <Link
             href={ASK_MICHAEL_URL}
             onClick={(e) => {
               if (openLiveChat()) e.preventDefault();
             }}
-            className="shrink-0 whitespace-nowrap border border-white px-2 py-1 text-[0.42rem] font-medium uppercase tracking-[0.04em] transition-colors hover:bg-white hover:text-masthead min-[414px]:px-3 min-[414px]:text-[0.52rem] min-[414px]:tracking-[0.06em] sm:px-4 sm:py-2 sm:text-[0.62rem] sm:tracking-[0.1em] lg:px-6 lg:py-2.5 lg:text-[0.72rem] lg:tracking-[0.12em]"
+            className="shrink-0 whitespace-nowrap border border-white px-2 py-1 text-[0.42rem] font-medium uppercase tracking-[0.04em] transition-colors hover:bg-white hover:text-masthead min-[414px]:px-2.5 min-[414px]:text-[0.52rem] min-[414px]:tracking-[0.06em] sm:px-4 sm:py-2 sm:text-[0.62rem] sm:tracking-[0.1em] lg:px-6 lg:py-2.5 lg:text-[0.72rem] lg:tracking-[0.12em]"
           >
             Ask Michael
           </Link>
@@ -177,8 +176,8 @@ export function Header() {
               <span className="shrink-0 font-sans font-medium uppercase tracking-[0.06em]">
                 Visit
               </span>
-              <span className="block truncate whitespace-nowrap sm:hidden">{there.short}</span>
-              <span className="hidden truncate whitespace-nowrap sm:block">{there.label}</span>
+              <span className="block truncate whitespace-nowrap lg:hidden">{there.short}</span>
+              <span className="hidden truncate whitespace-nowrap lg:block">{there.label}</span>
               <svg
                 viewBox="0 0 12 12"
                 aria-hidden
