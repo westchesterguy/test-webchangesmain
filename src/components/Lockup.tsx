@@ -43,6 +43,35 @@ export function Lockup({
 }
 
 /**
+ * The dog over MW, with no ring and no name: the hub's hero mark. Michael
+ * keeps the full lockup, with MICHAEL WINTER beneath the mark, to the horse
+ * site, so here the name is cropped off. Same geometric crop as MarkBadge
+ * below, so the two cannot drift.
+ */
+export function Mark({
+  variant = "white",
+  className = "",
+  width = 132,
+}: {
+  variant?: "white" | "navy";
+  className?: string;
+  width?: number;
+}) {
+  return (
+    <span className={`block overflow-hidden aspect-[590/653] ${className}`}>
+      <Image
+        src={`/images/mw-lockup-${variant}-v2.png`}
+        alt="Michael Winter"
+        width={width}
+        height={Math.round((width * 940) / 590)}
+        className="block h-auto w-full max-w-none"
+        preload
+      />
+    </span>
+  );
+}
+
+/**
  * The dog-over-MW mark, in a ring. This is the masthead mark on both sites.
  *
  * There is no dog+MW asset on disk, only the dog alone and the full lockup,
