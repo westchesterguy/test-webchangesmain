@@ -67,8 +67,9 @@ export function Hero() {
               +1 {agent.phoneDisplay}
             </a>
           </div>
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            {/* The Buyers page's search CTA, run a little wider here. */}
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3 md:mr-16">
+            {/* The Buyers page's search CTA, run a little wider here, and
+                held in off the right edge on desktop. */}
             <a
               href={LISTINGS_URL}
               target="_blank"
