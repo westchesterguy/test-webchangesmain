@@ -212,6 +212,19 @@ export function Header() {
               className="flex items-center gap-6 overflow-x-auto scroll-smooth pr-8 [scrollbar-width:none] md:gap-8 md:pr-0 [&::-webkit-scrollbar]:hidden"
             >
               {navLinks.map((item) => {
+                if (item.external) {
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shrink-0 text-small text-white/65 transition-colors hover:text-white"
+                    >
+                      {item.label}
+                    </a>
+                  );
+                }
                 const active =
                   pathname === item.href || pathname.startsWith(`${item.href}/`);
                 return (

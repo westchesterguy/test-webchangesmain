@@ -1,8 +1,10 @@
-import { agent } from "@/lib/site";
+import { agent, LISTINGS_URL } from "@/lib/site";
 
 export interface NavLink {
   href: string;
   label: string;
+  /** Off-site: rendered as a plain anchor that opens in a new tab. */
+  external?: boolean;
 }
 
 /** Single source of truth for primary navigation — used by Header and the command palette. */
@@ -10,6 +12,7 @@ export interface NavLink {
 // placeholders; the page stays routable and footer-linked meanwhile.
 export const navLinks: NavLink[] = [
   { href: "/about", label: "About" },
+  { href: LISTINGS_URL, label: "Listings", external: true },
   { href: "/communities", label: "Communities" },
   { href: "/buyers", label: "Buyers" },
   { href: "/sellers", label: "Sellers" },

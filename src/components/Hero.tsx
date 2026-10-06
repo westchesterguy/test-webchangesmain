@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { Overline } from "./Overline";
-import { agent } from "@/lib/site";
+import { agent, LISTINGS_URL } from "@/lib/site";
 import { Mark } from "./Lockup";
 
 /**
@@ -63,12 +62,29 @@ export function Hero() {
             </Overline>
           </div>
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            <Link
-              href="/communities"
-              className="inline-flex items-center gap-2 bg-white px-7 py-3 text-small font-medium uppercase tracking-[0.08em] text-charcoal transition-transform hover:-translate-y-0.5"
+            {/* Same button as the Buyers page's search CTA. */}
+            <a
+              href={LISTINGS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-white text-navy text-small uppercase tracking-[0.08em] font-medium rounded-sm hover:bg-cream transition-colors"
             >
-              Explore the towns
-            </Link>
+              Browse Listings
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </a>
             <a
               href={`tel:${agent.phone}`}
               className="text-small font-medium uppercase tracking-[0.08em] text-white/90 underline decoration-white/40 underline-offset-8 transition-colors hover:text-white hover:decoration-white"

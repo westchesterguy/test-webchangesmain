@@ -23,7 +23,7 @@ export const commands: Command[] = [
       id: `nav-${l.href}`,
       label: l.label,
       group: "Navigation",
-      href: l.href,
+      ...(l.external ? { external: l.href } : { href: l.href }),
     })
   ),
 
