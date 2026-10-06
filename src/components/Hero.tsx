@@ -60,14 +60,20 @@ export function Hero() {
             <Overline className="text-white/60">
               Michael Winter · Julia B. Fee Sotheby&apos;s International Realty · Bedford, NY
             </Overline>
+            <a
+              href={`tel:${agent.phone}`}
+              className="mt-3 inline-block text-small font-medium tracking-[0.08em] text-white/90 underline decoration-white/40 underline-offset-8 transition-colors hover:text-white hover:decoration-white"
+            >
+              +1 {agent.phoneDisplay}
+            </a>
           </div>
           <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
-            {/* Same button as the Buyers page's search CTA. */}
+            {/* The Buyers page's search CTA, run a little wider here. */}
             <a
               href={LISTINGS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-white text-navy text-small uppercase tracking-[0.08em] font-medium rounded-sm hover:bg-cream transition-colors"
+              className="inline-flex items-center gap-2 px-11 py-3 bg-white text-navy text-small uppercase tracking-[0.08em] font-medium rounded-sm hover:bg-cream transition-colors"
             >
               Browse Listings
               <svg
@@ -84,12 +90,6 @@ export function Hero() {
                   d="M17 8l4 4m0 0l-4 4m4-4H3"
                 />
               </svg>
-            </a>
-            <a
-              href={`tel:${agent.phone}`}
-              className="text-small font-medium uppercase tracking-[0.08em] text-white/90 underline decoration-white/40 underline-offset-8 transition-colors hover:text-white hover:decoration-white"
-            >
-              Call the Westchester Guy
             </a>
           </div>
         </div>
