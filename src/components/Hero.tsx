@@ -57,8 +57,10 @@ export function Hero() {
         {/* Baseline caption bar */}
         <div className="mt-10 flex flex-col gap-6 border-t border-white/25 pt-6 md:flex-row md:items-center md:justify-between animate-fade-in-up animate-delay-200">
           <div>
-            <Overline className="text-white/60">
-              Michael Winter · Julia B. Fee Sotheby&apos;s International Realty · Bedford, NY
+            {/* Same credit, tone and wrap as the horse site's hero. */}
+            <Overline tone="light" className="max-w-md">
+              Michael Winter · Sotheby&rsquo;s International Realty · Licensed in New
+              York and Connecticut
             </Overline>
             <a
               href={`tel:${agent.phone}`}
